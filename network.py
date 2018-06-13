@@ -1,0 +1,253 @@
+# coding: utf-8
+import matplotlib.pyplot as plt
+import itertools
+import matplotlib.cm as cm
+from keras import backend as K
+import numpy as np
+from keras.utils import np_utils
+from keras.models import Sequential
+from keras.layers.core import Dense, Dropout, Activation, Flatten
+from keras.layers.convolutional import Conv2D
+from keras.layers.pooling import MaxPooling2D
+from sklearn.model_selection import train_test_split
+import pandas
+import h5py
+import imageio
+import os
+from skimage.transform import resize
+from tqdm import tqdm
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.metrics import confusion_matrix,classification_report
+import seaborn as sns
+
+
+def plot_confusion_matrix(cm, classes,
+                          normalize=False,
+                          title='Confusion matrix',
+                          cmap=plt.cm.Blues):
+    """
+    This function prints and plots the confusion matrix.
+    Normalization can be applied by setting `normalize=True`.
+    """
+    plt.imshow(cm, interpolation='nearest', cmap=cmap)
+    plt.title(title)
+    plt.colorbar()
+    tick_marks = np.arange(len(classes))
+    plt.xticks(tick_marks, classes, rotation=45)
+    plt.yticks(tick_marks, classes)
+
+    if normalize:
+        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+
+    thresh = cm.max() / 2.
+    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+        plt.text(j, i, cm[i, j],
+                 horizontalalignment="center",
+                 color="white" if cm[i, j] > thresh else "black")
+
+    plt.tight_layout()
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
+    plt.savefig('confusion_matrix.pdf')
+    plt.close()
+
+
+def evaluate(X_test, Y_test, model):
+
+    ##Evaluate loss and metrics
+    loss, accuracy = model.evaluate(X_test, Y_test, verbose=0)
+    print('Test Loss:', loss)
+    print('Test Accuracy:', accuracy)
+    # Predict the values from the test dataset
+    Y_pred = model.predict(X_test)
+    # Convert predictions classes to one hot vectors
+    Y_cls = np.argmax(Y_pred, axis = 1)
+    # Convert validation observations to one hot vectors
+    Y_true = np.argmax(Y_test, axis = 1)
+    print('Classification Report:\n', classification_report(Y_true,Y_cls))
+
+    ## Plot 0 probability
+    label=0
+    Y_pred_prob = Y_pred[:,label]
+    plt.hist(Y_pred_prob[Y_true == label], alpha=0.5, color='red', bins=10, log = True)
+    plt.hist(Y_pred_prob[Y_true != label], alpha=0.5, color='blue', bins=10, log = True)
+    plt.legend(['NORMAL', 'KRANK'], loc='upper right')
+    plt.xlabel('Probability of being 0')
+    plt.ylabel('Number of entries')
+    plt.savefig('ill_or_not.pdf')
+    plt.close()
+
+    # compute the confusion matrix
+    confusion_mtx = confusion_matrix(Y_true, Y_cls)
+    # plot the confusion matrix
+    plt.figure(figsize=(8,8))
+    plot_confusion_matrix(confusion_mtx, classes = range(4))
+
+    #Plot largest errors
+    errors = (Y_cls - Y_true != 0)
+    Y_cls_errors = Y_cls[errors]
+    Y_pred_errors = Y_pred[errors]
+    Y_true_errors = Y_true[errors]
+    X_test_errors = X_test[errors]
+    # Probabilities of the wrong predicted numbers
+    Y_pred_errors_prob = np.max(Y_pred_errors,axis = 1)
+    # Predicted probabilities of the true values in the error set
+    true_prob_errors = np.diagonal(np.take(Y_pred_errors, Y_true_errors, axis=1))
+    # Difference between the probability of the predicted label and the true label
+    delta_pred_true_errors = Y_pred_errors_prob - true_prob_errors
+    # Sorted list of the delta prob errors
+    sorted_dela_errors = np.argsort(delta_pred_true_errors)
+    # Top 6 errors
+    most_important_errors = sorted_dela_errors[-6:]
+    # Show the top 6 errors
+    display_errors(most_important_errors, X_test_errors, Y_cls_errors, Y_true_errors)
+
+    ##Plot predictions
+    slice = 15
+    predicted = model.predict(X_test[:slice]).argmax(-1)
+    plt.figure(figsize=(16,8))
+    for i in range(slice):
+        plt.subplot(1, slice, i+1)
+        plt.imshow(X_test[i].reshape(24,24), interpolation='nearest')
+        plt.text(0, 0, predicted[i], color='black',
+                 bbox=dict(facecolor='white', alpha=1))
+        plt.axis('off')
+    plt.savefig('predictions.pdf')
+
+
+img_rows, img_cols = 500, 500
+np.random.seed(1338)  # for reproducibilty
+
+FOLDER_small = "../OCT2017/train/small/"
+
+def get_data(folder):
+    """
+    Load the data and labels from the given folder.
+    """
+    X = []
+    y = []
+    for folderName in os.listdir(folder):
+        if not folderName.startswith('.'):
+            if folderName in ['NORMAL']:
+                label = 0
+            elif folderName in ['CNV']:
+                label = 1
+            elif folderName in ['DME']:
+                label = 2
+            elif folderName in ['DRUSEN']:
+                label = 3
+            print("Loading files from directory ", folderName)
+            for image_filename in tqdm(os.listdir(folder + folderName)):
+                if image_filename.endswith('.jpeg'):
+                    img_file = imageio.imread(folder + folderName + '/' + image_filename)
+                    if img_file is not None:
+                        img_file = resize(img_file, (img_rows, img_cols))
+                        img_arr = np.asarray(img_file)
+                        X.append(img_arr)
+                        y.append(label)
+    X = np.asarray(X)
+    y = np.asarray(y)
+    return X,y
+
+def plot_history(network_history):
+    plt.figure()
+    plt.xlabel('Epochs')
+    plt.ylabel('Loss')
+    plt.plot(network_history.history['loss'])
+    plt.plot(network_history.history['val_loss'])
+    plt.legend(['Training', 'Validation'])
+    plt.savefig('loss_history.pdf')
+    plt.close()
+
+    plt.figure()
+    plt.xlabel('Epochs')
+    plt.ylabel('Accuracy')
+    plt.plot(network_history.history['acc'])
+    plt.plot(network_history.history['val_acc'])
+    plt.legend(['Training', 'Validation'], loc='lower right')
+    plt.savefig('accuracy_history.pdf')
+    plt.close()
+
+
+def main():
+    data, labels = get_data(FOLDER_small)
+
+    X_train, X_test, Y_train, Y_test = train_test_split(data[:], labels[:], test_size=0.3, shuffle=True, stratify=labels)
+
+    print('''
+    Datensätze:
+    ------------------------------------
+    \t \t train \t test \t shape
+    Data:\t {} \t {} \t {}
+    Labels: \t {} \t {} \t {}
+    '''.format(len(X_train), len(X_test), X_train.shape, len(Y_train), len(Y_test), Y_train.shape))
+
+    X_train = X_train.reshape(len(X_train), 500**2)
+    X_test = X_test.reshape(len(X_test), 500**2)
+
+    scaler = MinMaxScaler(feature_range=(0, 1))
+    X_train = scaler.fit_transform(X_train)
+    X_test = scaler.transform(X_test)
+
+    cp = sns.countplot(Y_train)
+    fig = cp.get_figure()
+    fig.savefig('countplot.pdf')
+
+    if K.image_data_format() == 'channels_first':
+        shape_ord = (1, img_rows, img_cols)
+    else:  # channel_last
+        shape_ord = (img_rows, img_cols, 1)
+
+    X_train = X_train.reshape((X_train.shape[0],) + shape_ord)
+    X_test = X_test.reshape((X_test.shape[0],) + shape_ord)
+
+    Y_train = np_utils.to_categorical(Y_train, 4)
+    Y_test = np_utils.to_categorical(Y_test, 4)
+
+    X_train, X_val, Y_train, Y_val = train_test_split(X_train, Y_train, test_size=0.3, stratify=Y_train)
+
+    print('''
+    \t\t Y \t\t X
+    ---------------------------------------------------------------
+    train|\t {} \t {}
+    test |\t {} \t {}
+    '''.format(Y_train.shape, X_train.shape, Y_test.shape, X_test.shape))
+
+    # -- Initializing the values for the convolution neural network
+
+    nb_epoch = 5
+    # kept very low!
+    batch_size = 20
+    # number of convolutional filters to use
+    nb_filters = 32
+    # size of pooling area for max pooling
+    nb_pool = 2
+    # convolution kernel size
+    nb_conv = 10
+
+    model = Sequential()
+
+    model.add(Conv2D(nb_filters, kernel_size=(nb_conv, nb_conv), padding='valid', activation='relu', strides=(3, 3), input_shape=shape_ord))  # note: the very first layer **must** always specify the input_shape
+    # model.add(Conv2D(16, kernel_size=(4, 4), padding='valid', activation='relu', strides=(1, 1)))
+    model.add(Flatten())
+    model.add(Dense(64, activation='relu'))
+    model.add(Dense(32, activation='relu'))
+    model.add(Dense(16, activation='tanh'))
+    model.add(Dense(4, activation='softmax'))
+
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+    model.summary()
+
+    print("\n\t Fitting model \n")
+    hist = model.fit(X_train, Y_train, batch_size=batch_size,
+                 epochs=nb_epoch, verbose=1,
+                 validation_data=(X_val, Y_val))
+
+    plot_history(hist)
+    evaluate(X_test, Y_test, model)
+
+
+
+if __name__ == '__main__':
+    main()
