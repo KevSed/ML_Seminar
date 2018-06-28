@@ -19,6 +19,9 @@ from tqdm import tqdm
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import confusion_matrix,classification_report
 import seaborn as sns
+import click
+from multiprocessing import Pool
+from time import sleep
 
 
 def plot_confusion_matrix(cm, classes,
@@ -100,15 +103,15 @@ def evaluate(X_test, Y_test, model):
     # Top 6 errors
     most_important_errors = sorted_dela_errors[-6:]
     # Show the top 6 errors
-    display_errors(most_important_errors, X_test_errors, Y_cls_errors, Y_true_errors)
+    # display_errors(most_important_errors, X_test_errors, Y_cls_errors, Y_true_errors)
 
     ##Plot predictions
-    slice = 15
+    slice = 10
     predicted = model.predict(X_test[:slice]).argmax(-1)
     plt.figure(figsize=(16,8))
     for i in range(slice):
         plt.subplot(1, slice, i+1)
-        plt.imshow(X_test[i].reshape(24,24), interpolation='nearest')
+        plt.imshow(X_test[i].reshape(img_rows, img_cols), interpolation='nearest')
         plt.text(0, 0, predicted[i], color='black',
                  bbox=dict(facecolor='white', alpha=1))
         plt.axis('off')
@@ -118,36 +121,64 @@ def evaluate(X_test, Y_test, model):
 img_rows, img_cols = 500, 500
 np.random.seed(1338)  # for reproducibilty
 
-FOLDER_small = "../OCT2017/train/small/"
+
+def get_data2(folderName, folder):
+    """
+    Load the data and labels from the given folder.
+    """
+    data = {}
+    X = []
+    y = []
+    if not folderName.startswith('.'):
+        if folderName in ['NORMAL']:
+            label = 0
+        elif folderName in ['CNV']:
+            label = 1
+        elif folderName in ['DME']:
+            label = 2
+        elif folderName in ['DRUSEN']:
+            label = 3
+        print("Loading files from directory ", folderName)
+        for image_filename in os.listdir(folder + folderName):
+            if image_filename.endswith('.jpeg'):
+                print("Loading file ", image_filename)
+                img_file = imageio.imread(folder + folderName + '/' + image_filename)
+                if img_file is not None:
+                    img_file = resize(img_file, (img_rows, img_cols))
+                    data['img_arr'] = np.asarray(img_file)
+                    data['label'] = label
+                    X.append(data)
+    return X
+
 
 def get_data(folder):
     """
     Load the data and labels from the given folder.
     """
     X = []
-    y = []
-    for folderName in os.listdir(folder):
-        if not folderName.startswith('.'):
-            if folderName in ['NORMAL']:
-                label = 0
-            elif folderName in ['CNV']:
-                label = 1
-            elif folderName in ['DME']:
-                label = 2
-            elif folderName in ['DRUSEN']:
-                label = 3
-            print("Loading files from directory ", folderName)
-            for image_filename in tqdm(os.listdir(folder + folderName)):
-                if image_filename.endswith('.jpeg'):
-                    img_file = imageio.imread(folder + folderName + '/' + image_filename)
-                    if img_file is not None:
-                        img_file = resize(img_file, (img_rows, img_cols))
-                        img_arr = np.asarray(img_file)
-                        X.append(img_arr)
-                        y.append(label)
-    X = np.asarray(X)
-    y = np.asarray(y)
-    return X,y
+    Y = []
+    for folderName in folder:
+      if not folderName.startswith('.'):
+          if folderName in ['NORMAL']:
+              label = 0
+          elif folderName in ['CNV']:
+              label = 1
+          elif folderName in ['DME']:
+              label = 2
+          elif folderName in ['DRUSEN']:
+              label = 3
+          print("Loading files from directory ", folder)
+          for image_filename in tqdm(os.listdir(folder + folderName)):
+              if image_filename.endswith('.jpeg'):
+                  img_file = imageio.imread(folder + folderName + '/' + image_filename)
+                  if img_file is not None:
+                      img_file = resize(img_file, (img_rows, img_cols))
+                      X.append(np.asarray(img_file))
+                      Y.append(label)
+      X = np.asarray(X)
+      Y = np.asarray(Y)
+      return X, Y
+
 
 def plot_history(network_history):
     plt.figure()
@@ -168,9 +199,42 @@ def plot_history(network_history):
     plt.savefig('accuracy_history.pdf')
     plt.close()
 
+def as_completed(futures):
+    futures = list(futures)
+    while futures:
+        for f in futures.copy():
+            if f.ready():
+                futures.remove(f)
+                yield f.get()
+        sleep(0.1)
 
-def main():
-    data, labels = get_data(FOLDER_small)
+
+
+@click.command()
+# @click.argument('sample_size', type=int, default=0)
+@click.option('-n', '--n-jobs', default=-1, type=int, help='Number of cores to use')
+def main(n_jobs):
+
+#    FOLDER = "../OCT2017/small/"
+#    if n_jobs == -1:
+#        n_jobs = 48
+#
+#    datas = []
+#    gesamt = 0
+#    for unter in os.listdir(FOLDER):
+#        gesamt += len(os.listdir(FOLDER + unter))
+#    print("Gesamt: ", gesamt)
+#    with Pool(n_jobs) as pool:
+#        results = [pool.apply_async(get_data, kwds={'folderName': f, 'folder': FOLDER}) for f in os.listdir(FOLDER)]
+#        #for X in tqdm(as_completed(results), total=gesamt):
+#        for X in as_completed(results):
+#            datas.append(X)
+#
+#    data = datas['img_arr']
+#    labels = datas['label']
+    FOLDER = "../OCT2017/small/"
+
+    data, labels = get_data(FOLDER)
 
     X_train, X_test, Y_train, Y_test = train_test_split(data[:], labels[:], test_size=0.3, shuffle=True, stratify=labels)
 
@@ -215,7 +279,7 @@ def main():
 
     # -- Initializing the values for the convolution neural network
 
-    nb_epoch = 5
+    nb_epoch = 40
     # kept very low!
     batch_size = 20
     # number of convolutional filters to use
@@ -227,12 +291,14 @@ def main():
 
     model = Sequential()
 
-    model.add(Conv2D(nb_filters, kernel_size=(nb_conv, nb_conv), padding='valid', activation='relu', strides=(3, 3), input_shape=shape_ord))  # note: the very first layer **must** always specify the input_shape
+    model.add(Conv2D(nb_filters, kernel_size=(nb_conv, nb_conv), padding='valid', activation='relu', strides=(10, 10), input_shape=shape_ord))
     # model.add(Conv2D(16, kernel_size=(4, 4), padding='valid', activation='relu', strides=(1, 1)))
-    model.add(Flatten())
+    model.add(MaxPooling2D(pool_size=(10,10), padding='valid'))
+    # model.add(Flatten())
     model.add(Dense(64, activation='relu'))
-    model.add(Dense(32, activation='relu'))
-    model.add(Dense(16, activation='tanh'))
+    # model.add(Dense(32, activation='relu'))
+    # model.add(Dense(16, activation='tanh'))
+    model.add(Flatten())
     model.add(Dense(4, activation='softmax'))
 
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
