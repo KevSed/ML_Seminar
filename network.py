@@ -10,7 +10,7 @@ from keras.layers.core import Dense, Dropout, Activation, Flatten
 from keras.layers.convolutional import Conv2D
 from keras.layers.pooling import MaxPooling2D
 from sklearn.model_selection import train_test_split
-import pandas
+import pandas as pd
 import h5py
 import imageio
 import os
@@ -118,66 +118,8 @@ def evaluate(X_test, Y_test, model):
     plt.savefig('predictions.pdf')
 
 
-img_rows, img_cols = 500, 500
+img_rows, img_cols = 400, 400
 np.random.seed(1338)  # for reproducibilty
-
-
-def get_data2(folderName, folder):
-    """
-    Load the data and labels from the given folder.
-    """
-    data = {}
-    X = []
-    y = []
-    if not folderName.startswith('.'):
-        if folderName in ['NORMAL']:
-            label = 0
-        elif folderName in ['CNV']:
-            label = 1
-        elif folderName in ['DME']:
-            label = 2
-        elif folderName in ['DRUSEN']:
-            label = 3
-        print("Loading files from directory ", folderName)
-        for image_filename in os.listdir(folder + folderName):
-            if image_filename.endswith('.jpeg'):
-                print("Loading file ", image_filename)
-                img_file = imageio.imread(folder + folderName + '/' + image_filename)
-                if img_file is not None:
-                    img_file = resize(img_file, (img_rows, img_cols))
-                    data['img_arr'] = np.asarray(img_file)
-                    data['label'] = label
-                    X.append(data)
-    return X
-
-
-def get_data(folder):
-    """
-    Load the data and labels from the given folder.
-    """
-    X = []
-    Y = []
-    for folderName in folder:
-      if not folderName.startswith('.'):
-          if folderName in ['NORMAL']:
-              label = 0
-          elif folderName in ['CNV']:
-              label = 1
-          elif folderName in ['DME']:
-              label = 2
-          elif folderName in ['DRUSEN']:
-              label = 3
-          print("Loading files from directory ", folder)
-          for image_filename in tqdm(os.listdir(folder + folderName)):
-              if image_filename.endswith('.jpeg'):
-                  img_file = imageio.imread(folder + folderName + '/' + image_filename)
-                  if img_file is not None:
-                      img_file = resize(img_file, (img_rows, img_cols))
-                      X.append(np.asarray(img_file))
-                      Y.append(label)
-      X = np.asarray(X)
-      Y = np.asarray(Y)
-      return X, Y
 
 
 def plot_history(network_history):
@@ -199,42 +141,14 @@ def plot_history(network_history):
     plt.savefig('accuracy_history.pdf')
     plt.close()
 
-def as_completed(futures):
-    futures = list(futures)
-    while futures:
-        for f in futures.copy():
-            if f.ready():
-                futures.remove(f)
-                yield f.get()
-        sleep(0.1)
 
 
 
-@click.command()
-# @click.argument('sample_size', type=int, default=0)
-@click.option('-n', '--n-jobs', default=-1, type=int, help='Number of cores to use')
-def main(n_jobs):
+def main():
 
-#    FOLDER = "../OCT2017/small/"
-#    if n_jobs == -1:
-#        n_jobs = 48
-#
-#    datas = []
-#    gesamt = 0
-#    for unter in os.listdir(FOLDER):
-#        gesamt += len(os.listdir(FOLDER + unter))
-#    print("Gesamt: ", gesamt)
-#    with Pool(n_jobs) as pool:
-#        results = [pool.apply_async(get_data, kwds={'folderName': f, 'folder': FOLDER}) for f in os.listdir(FOLDER)]
-#        #for X in tqdm(as_completed(results), total=gesamt):
-#        for X in as_completed(results):
-#            datas.append(X)
-#
-#    data = datas['img_arr']
-#    labels = datas['label']
-    FOLDER = "../OCT2017/small/"
-
-    data, labels = get_data(FOLDER)
+    image_files = h5py.File('whole_image_set.hdf5')
+    data = image_files['train_img']
+    labels = image_files['train_label']
 
     X_train, X_test, Y_train, Y_test = train_test_split(data[:], labels[:], test_size=0.3, shuffle=True, stratify=labels)
 
@@ -246,8 +160,8 @@ def main(n_jobs):
     Labels: \t {} \t {} \t {}
     '''.format(len(X_train), len(X_test), X_train.shape, len(Y_train), len(Y_test), Y_train.shape))
 
-    X_train = X_train.reshape(len(X_train), 500**2)
-    X_test = X_test.reshape(len(X_test), 500**2)
+    X_train = X_train.reshape(len(X_train), img_rows**2)
+    X_test = X_test.reshape(len(X_test), img_rows**2)
 
     scaler = MinMaxScaler(feature_range=(0, 1))
     X_train = scaler.fit_transform(X_train)
@@ -279,25 +193,24 @@ def main(n_jobs):
 
     # -- Initializing the values for the convolution neural network
 
-    nb_epoch = 40
+    nb_epoch = 12
     # kept very low!
     batch_size = 20
     # number of convolutional filters to use
     nb_filters = 32
     # size of pooling area for max pooling
-    nb_pool = 2
+    nb_pool = 4
     # convolution kernel size
-    nb_conv = 10
+    nb_conv = 8
+    # strides
+    nb_strides = (4, 4)
 
     model = Sequential()
 
-    model.add(Conv2D(nb_filters, kernel_size=(nb_conv, nb_conv), padding='valid', activation='relu', strides=(10, 10), input_shape=shape_ord))
-    # model.add(Conv2D(16, kernel_size=(4, 4), padding='valid', activation='relu', strides=(1, 1)))
-    model.add(MaxPooling2D(pool_size=(10,10), padding='valid'))
+    model.add(Conv2D(nb_filters, kernel_size=(nb_conv, nb_conv), padding='valid', activation='relu', strides=nb_strides, input_shape=shape_ord))
+    model.add(MaxPooling2D(pool_size=(nb_pool, nb_pool), padding='valid'))
     # model.add(Flatten())
     model.add(Dense(64, activation='relu'))
-    # model.add(Dense(32, activation='relu'))
-    # model.add(Dense(16, activation='tanh'))
     model.add(Flatten())
     model.add(Dense(4, activation='softmax'))
 
