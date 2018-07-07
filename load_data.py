@@ -21,7 +21,7 @@ def as_completed(futures):
         sleep(0.1)
 
 
-def get_data2(file):
+def read_images(file):
     """
     Load the data and labels from the given folder.
     """
@@ -61,7 +61,7 @@ def main(input_file, output_file, n_jobs):
 
     print("Loading image files using", n_jobs, "cores")
     hdf5_file = h5py.File(output_file, mode='w')
-    results = [get_data2(f) for f in tqdm(files)]
+    results = [read_images(f) for f in tqdm(files)]
 
     hdf5_file.create_dataset("train_img", data=[results[i]['img_arr'] for i in range(gesamt)])
     hdf5_file.create_dataset("train_label", data=[results[i]['label'] for i in range(gesamt)])

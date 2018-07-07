@@ -193,25 +193,26 @@ def main():
 
     # -- Initializing the values for the convolution neural network
 
-    nb_epoch = 12
+    nb_epoch = 60
     # kept very low!
-    batch_size = 20
-    # number of convolutional filters to use
-    nb_filters = 32
-    # size of pooling area for max pooling
-    nb_pool = 4
-    # convolution kernel size
-    nb_conv = 8
-    # strides
-    nb_strides = (4, 4)
+    batch_size = 100
 
     model = Sequential()
 
-    model.add(Conv2D(nb_filters, kernel_size=(nb_conv, nb_conv), padding='valid', activation='relu', strides=nb_strides, input_shape=shape_ord))
-    model.add(MaxPooling2D(pool_size=(nb_pool, nb_pool), padding='valid'))
+    model.add(Conv2D(64, kernel_size=(4, 4), padding='valid', activation='elu', strides=(2, 2), input_shape=shape_ord, kernel_initializer='VarianceScaling'))
+    model.add(MaxPooling2D(pool_size=(3, 3), padding='valid'))
+    model.add(Conv2D(32, kernel_size=(4, 4), padding='valid', activation='elu', strides=(2, 2)))
+    model.add(MaxPooling2D(pool_size=(3, 3), padding='valid'))
     # model.add(Flatten())
-    model.add(Dense(64, activation='relu'))
+    model.add(Dropout(0.25))
+    model.add(Dense(1000, activation='elu'))
+    model.add(Dense(250, activation='elu'))
     model.add(Flatten())
+    model.add(Dense(100, activation='elu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(42, activation='elu'))
+   # model.add(Dense(16, activation='relu'))
+   # model.add(Dense(8, activation='relu'))
     model.add(Dense(4, activation='softmax'))
 
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
