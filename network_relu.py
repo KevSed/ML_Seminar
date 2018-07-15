@@ -51,7 +51,7 @@ def plot_confusion_matrix(cm, classes,
     plt.tight_layout()
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
-    plt.savefig('confusion_matrix.pdf')
+    plt.savefig('confusion_matrix_relu.pdf')
     plt.close()
 
 
@@ -77,7 +77,7 @@ def evaluate(X_val, Y_val, model):
     plt.legend(['NORMAL', 'KRANK'], loc='upper right')
     plt.xlabel('Probability of being 0')
     plt.ylabel('Number of entries')
-    plt.savefig('ill_or_not.pdf')
+    plt.savefig('ill_or_not_relu.pdf')
     plt.close()
 
     # compute the confusion matrix
@@ -115,7 +115,7 @@ def evaluate(X_val, Y_val, model):
         plt.text(0, 0, predicted[i], color='black',
                  bbox=dict(facecolor='white', alpha=1))
         plt.axis('off')
-    plt.savefig('predictions.pdf')
+    plt.savefig('predictions_relu.pdf')
 
 
 img_rows, img_cols = 400, 400
@@ -129,7 +129,7 @@ def plot_history(network_history):
     plt.plot(network_history.history['loss'])
     plt.plot(network_history.history['val_loss'])
     plt.legend(['Training', 'Validation'])
-    plt.savefig('loss_history.pdf')
+    plt.savefig('loss_history_relu.pdf')
     plt.close()
 
     plt.figure()
@@ -138,7 +138,7 @@ def plot_history(network_history):
     plt.plot(network_history.history['acc'])
     plt.plot(network_history.history['val_acc'])
     plt.legend(['Training', 'Validation'], loc='lower right')
-    plt.savefig('accuracy_history.pdf')
+    plt.savefig('accuracy_history_relu.pdf')
     plt.close()
 
 
@@ -171,7 +171,7 @@ def main():
 
     cp = sns.countplot(Y_train)
     fig = cp.get_figure()
-    fig.savefig('countplot.pdf')
+    fig.savefig('countplot_relu.pdf')
 
     if K.image_data_format() == 'channels_first':
         shape_ord = (1, img_rows, img_cols)
@@ -194,26 +194,26 @@ def main():
 
     # -- Initializing the values for the convolution neural network
 
-    nb_epoch = 40
+    nb_epoch = 20
     # kept very low!
     batch_size = 100
 
     model = Sequential()
 
-    model.add(Conv2D(64, kernel_size=(4, 4), padding='valid', activation='elu', strides=(2, 2), input_shape=shape_ord, kernel_initializer='VarianceScaling'))
+    model.add(Conv2D(64, kernel_size=(4, 4), padding='valid', activation='relu', strides=(2, 2), input_shape=shape_ord, kernel_initializer='VarianceScaling'))
     model.add(MaxPooling2D(pool_size=(3, 3), padding='valid'))
-    model.add(Conv2D(32, kernel_size=(4, 4), padding='valid', activation='elu', strides=(2, 2)))
+    model.add(Conv2D(32, kernel_size=(4, 4), padding='valid', activation='relu', strides=(2, 2)))
     model.add(MaxPooling2D(pool_size=(3, 3), padding='valid'))
     # model.add(Flatten())
     model.add(Dropout(0.25))
-    model.add(Dense(1000, activation='elu'))
-    model.add(Dense(250, activation='elu'))
+    model.add(Dense(1000, activation='relu'))
+    model.add(Dense(250, activation='relu'))
     model.add(Flatten())
-    model.add(Dense(100, activation='elu'))
+    model.add(Dense(100, activation='relu'))
     model.add(Dropout(0.5))
-    model.add(Dense(32, activation='elu'))
-   # model.add(Dense(16, activation='relu'))
-   # model.add(Dense(8, activation='relu'))
+    model.add(Dense(32, activation='relu'))
+   # model.add(Dense(16, activation='rrelu'))
+   # model.add(Dense(8, activation='rrelu'))
     model.add(Dense(4, activation='softmax'))
 
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])

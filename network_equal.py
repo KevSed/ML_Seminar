@@ -51,7 +51,7 @@ def plot_confusion_matrix(cm, classes,
     plt.tight_layout()
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
-    plt.savefig('confusion_matrix.pdf')
+    plt.savefig('confusion_matrix_equal.pdf')
     plt.close()
 
 
@@ -77,7 +77,7 @@ def evaluate(X_val, Y_val, model):
     plt.legend(['NORMAL', 'KRANK'], loc='upper right')
     plt.xlabel('Probability of being 0')
     plt.ylabel('Number of entries')
-    plt.savefig('ill_or_not.pdf')
+    plt.savefig('ill_or_not_equal.pdf')
     plt.close()
 
     # compute the confusion matrix
@@ -115,7 +115,7 @@ def evaluate(X_val, Y_val, model):
         plt.text(0, 0, predicted[i], color='black',
                  bbox=dict(facecolor='white', alpha=1))
         plt.axis('off')
-    plt.savefig('predictions.pdf')
+    plt.savefig('predictions_equal.pdf')
 
 
 img_rows, img_cols = 400, 400
@@ -129,7 +129,7 @@ def plot_history(network_history):
     plt.plot(network_history.history['loss'])
     plt.plot(network_history.history['val_loss'])
     plt.legend(['Training', 'Validation'])
-    plt.savefig('loss_history.pdf')
+    plt.savefig('loss_history_equal.pdf')
     plt.close()
 
     plt.figure()
@@ -138,7 +138,7 @@ def plot_history(network_history):
     plt.plot(network_history.history['acc'])
     plt.plot(network_history.history['val_acc'])
     plt.legend(['Training', 'Validation'], loc='lower right')
-    plt.savefig('accuracy_history.pdf')
+    plt.savefig('accuracy_history_equal.pdf')
     plt.close()
 
 
@@ -146,7 +146,7 @@ def plot_history(network_history):
 
 def main():
 
-    image_files = h5py.File('whole_image_set.hdf5')
+    image_files = h5py.File('equal_image_set.hdf5')
     data = image_files['train_img']
     labels = image_files['train_label']
 
@@ -171,7 +171,7 @@ def main():
 
     cp = sns.countplot(Y_train)
     fig = cp.get_figure()
-    fig.savefig('countplot.pdf')
+    fig.savefig('countplot_equal.pdf')
 
     if K.image_data_format() == 'channels_first':
         shape_ord = (1, img_rows, img_cols)
@@ -180,6 +180,14 @@ def main():
 
     X_train = X_train.reshape((X_train.shape[0],) + shape_ord)
     X_val = X_val.reshape((X_val.shape[0],) + shape_ord)
+
+    labels_dist = np.bincount(Y_train)
+
+    weights = np.ones(len(Y_train), dtype=float)
+    for s in range(len(Y_train)):
+        for k in range(len(Y_train[s])):
+            if(Y_train[s][k] == 1):
+                weights[s]*=1./labels_dist[k]
 
     Y_train = np_utils.to_categorical(Y_train, 4)
     Y_val = np_utils.to_categorical(Y_val, 4)
@@ -190,7 +198,8 @@ def main():
     ---------------------------------------------------------------
     train|\t {} \t {}
     test |\t {} \t {}
-    '''.format(Y_train.shape, X_train.shape, Y_val.shape, X_val.shape))
+    weights|\t {}
+    '''.format(Y_train.shape, X_train.shape, Y_val.shape, X_val.shape, np.unique(weights)))
 
     # -- Initializing the values for the convolution neural network
 
