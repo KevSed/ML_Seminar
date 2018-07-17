@@ -1,27 +1,23 @@
 # coding: utf-8
 import matplotlib.pyplot as plt
-import itertools
 import matplotlib.cm as cm
-from keras import backend as K
 import numpy as np
+import pandas as pd
+from keras import backend as K
 from keras.utils import np_utils
 from keras.models import Sequential
 from keras.layers.core import Dense, Dropout, Activation, Flatten
 from keras.layers.convolutional import Conv2D
 from keras.layers.pooling import MaxPooling2D
 from sklearn.model_selection import train_test_split
-import pandas as pd
 import h5py
 import imageio
-import os
 from skimage.transform import resize
-from tqdm import tqdm
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import confusion_matrix, classification_report
 import seaborn as sns
-import click
-from multiprocessing import Pool
-from time import sleep
+from .evaluate import evaluate
+from .plot_history import plot_history
 
 
 def plot_confusion_matrix(cm, classes,
@@ -172,6 +168,7 @@ def main():
     cp = sns.countplot(Y_train)
     fig = cp.get_figure()
     fig.savefig('countplot.pdf')
+    fig.clf()
 
     if K.image_data_format() == 'channels_first':
         shape_ord = (1, img_rows, img_cols)
