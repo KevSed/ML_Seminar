@@ -2,10 +2,11 @@ import numpy as np
 from sklearn.metrics import confusion_matrix, classification_report
 import matplotlib.pyplot as plt
 import itertools
+nichTrue = False
 
 
-def plot_confusion_matrix(cm, classes,
-                          normalize=False,
+def plot_confusion_matrix(cm, classes, what,
+                          normalize=nichTrue,
                           title='Confusion matrix',
                           cmap=plt.cm.Blues):
     """
@@ -14,7 +15,6 @@ def plot_confusion_matrix(cm, classes,
     """
     plt.imshow(cm, interpolation='nearest', cmap=cmap)
     plt.title(title)
-    plt.colorbar()
     tick_marks = np.arange(len(classes))
     plt.xticks(tick_marks, classes, rotation=45)
     plt.yticks(tick_marks, classes)
@@ -31,14 +31,14 @@ def plot_confusion_matrix(cm, classes,
     plt.tight_layout()
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
-    plt.savefig('confusion_matrix.pdf')
+    plt.savefig('confusion_matrix_{}.pdf'.format(what))
     plt.close()
 
 
-def evaluate(X_val, Y_val, model):
+def evaluate(X_val, Y_val, model, weights, what):
 
     ##Evaluate loss and metrics
-    loss, accuracy = model.evaluate(X_val, Y_val, verbose=0)
+    loss, accuracy = model.evaluate(X_val, Y_val, sample_weight=weights, verbose=0)
     print('Test Loss:', loss)
     print('Test Accuracy:', accuracy)
     # Predict the values from the test dataset
@@ -52,19 +52,25 @@ def evaluate(X_val, Y_val, model):
     ## Plot 0 probability
     label=0
     Y_pred_prob = Y_pred[:,label]
-    plt.hist(Y_pred_prob[Y_true == label], alpha=0.5, color='red', bins=10, log = True)
-    plt.hist(Y_pred_prob[Y_true != label], alpha=0.5, color='blue', bins=10, log = True)
+    plt.hist(Y_pred_prob[Y_true == label], alpha=0.5, color='red', bins=20, range=(0,1), log = True)
+    plt.hist(Y_pred_prob[Y_true != label], alpha=0.5, color='blue', bins=20, range=(0,1), log = True)
     plt.legend(['NORMAL', 'KRANK'], loc='upper right')
     plt.xlabel('Probability of being 0')
     plt.ylabel('Number of entries')
-    plt.savefig('ill_or_not.pdf')
+    plt.savefig('ill_or_not_log_{}.pdf'.format(what))
     plt.close()
-
+    plt.hist(Y_pred_prob[Y_true == label], alpha=0.5, color='red',  bins=20, range=(0,1), log = nichTrue)
+    plt.hist(Y_pred_prob[Y_true != label], alpha=0.5, color='blue', bins=20, range=(0,1), log = nichTrue)
+    plt.legend(['NORMAL', 'KRANK'], loc='upper right')
+    plt.xlabel('Probability of being 0')
+    plt.ylabel('Number of entries')
+    plt.savefig('ill_or_not_{}.pdf'.format(what))
+    plt.close()
     # compute the confusion matrix
     confusion_mtx = confusion_matrix(Y_true, Y_cls)
     # plot the confusion matrix
     plt.figure(figsize=(8,8))
-    plot_confusion_matrix(confusion_mtx, classes = range(4))
+    plot_confusion_matrix(confusion_mtx, range(4), what, normalize=True)
 
     #Plot largest errors
     errors = (Y_cls - Y_true != 0)
@@ -95,6 +101,7 @@ def evaluate(X_val, Y_val, model):
         plt.text(0, 0, predicted[i], color='black',
                  bbox=dict(facecolor='white', alpha=1))
         plt.axis('off')
-    plt.savefig('predictions.pdf')
+        plt.title('True: {}'.format(Y_val[i]))
+    plt.savefig('predictions_{}.pdf'.format(what))
 
 

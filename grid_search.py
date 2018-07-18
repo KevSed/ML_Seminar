@@ -4,6 +4,12 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 from keras.wrappers.scikit_learn import KerasClassifier
+import h5py
+from sklearn.model_selection import train_test_split
+
+
+img_rows, img_cols = 400, 400
+np.random.seed(1338) # for reproducibilty
 
 
 def make_model(dense_layer_sizes, filters,
@@ -42,6 +48,7 @@ def make_model(dense_layer_sizes, filters,
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     return model
+
 
 def main():
 

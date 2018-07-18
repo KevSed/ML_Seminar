@@ -1,4 +1,4 @@
-all: build/example.pdf
+all: build/ml_talk.pdf
 
 texoptions = \
 	     --lualatex \
@@ -6,11 +6,12 @@ texoptions = \
 	     --halt-on-error \
 	     --output-directory=build
 
-build/example.pdf: FORCE | build
-	latexmk $(texoptions) example.tex
+build/ml_talk.pdf: FORCE | build
+	latexmk $(texoptions) ml_talk.tex
+	cp build/ml_talk.pdf Wendland_Sedlaczek.pdf
 
 preview: FORCE | build
-	latexmk $(texoptions) -pvc example.tex
+	latexmk $(texoptions) -pvc ml_talk.tex
 
 FORCE:
 

@@ -87,15 +87,15 @@
   \ifnum\insertframenumber=1%
   \else%
     \leavevmode
-    \begin{beamercolorbox}[
-      wd=0.2\paperwidth,
-      ht=4ex,
-      dp=10pt,
-      leftskip=\beamer@leftmargin,
-    ]{author in head/foot}%
-      {\usebeamerfont{author in head/foot}\insertshortauthor} | 
-      {\usebeamerfont{date in head/foot}\insertshortdate}%
-    \end{beamercolorbox}%
+    % \begin{beamercolorbox}[
+    %   wd=0.2\paperwidth,
+    %   ht=4ex,
+    %   dp=10pt,
+    %   leftskip=\beamer@leftmargin,
+    % ]{author in head/foot}%
+    %   {\usebeamerfont{author in head/foot}\insertshortauthor} |
+    %   {\usebeamerfont{date in head/foot}\insertshortdate}%
+    % \end{beamercolorbox}%
     \begin{beamercolorbox}[
       wd=0.6\paperwidth,
       ht=3ex,
@@ -111,17 +111,17 @@
         \fi
       \fi%
     \end{beamercolorbox}%
-    \begin{beamercolorbox}[
-      wd=0.2\paperwidth,
-      ht=4ex,
-      dp=10pt,
-      rightskip=\beamer@rightmargin,
-    ]{frame}%
-      \hfill\usebeamerfont{framenumber}\insertframenumber%
-      \if@showtotalframes
-        ~/~\inserttotalframenumber%
-      \fi%
-    \end{beamercolorbox}%
+    % \begin{beamercolorbox}[
+    %   wd=0.2\paperwidth,
+    %   ht=4ex,
+    %   dp=10pt,
+    %   rightskip=\beamer@rightmargin,
+    % ]{frame}%
+    %   \hfill\usebeamerfont{framenumber}\insertframenumber%
+    %   \if@showtotalframes
+    %     ~/~\inserttotalframenumber%
+    %   \fi%
+    % \end{beamercolorbox}%
   \fi%
 }
 
