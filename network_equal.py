@@ -18,6 +18,7 @@ from sklearn.metrics import confusion_matrix, classification_report
 import seaborn as sns
 from evaluate import evaluate
 from plot_history import plot_history
+from save_all import save_all
 
 
 img_rows, img_cols = 400, 400
@@ -26,7 +27,7 @@ np.random.seed(1338) # for reproducibilty
 
 def main():
 
-    image_files = h5py.File('equal_image_set.hdf5')
+    image_files = h5py.File('whole_image_set.hdf5')
     data = image_files['train_img']
     labels = image_files['train_label']
 
@@ -51,7 +52,7 @@ def main():
 
     cp = sns.countplot(Y_train)
     fig = cp.get_figure()
-    fig.savefig('countplot_equal.pdf')
+    fig.savefig('pdf/countplot_equal.pdf')
     fig.clf()
 
     if K.image_data_format() == 'channels_first':
@@ -107,16 +108,7 @@ def main():
                  validation_data=(X_val, Y_val))
 
     model.save('./model_equal.hdf5')
-    plot_history(hist)
-    evaluate(X_val, Y_val, model, np.ones(len(Y_val)), 'equal')
-
-    hdf5_file = h5py.File('history_equal.h5', mode='w')
-
-    hdf5_file.create_dataset("val_loss", data=hist.history['val_loss'])
-    hdf5_file.create_dataset("loss", data=hist.history['loss'])
-    hdf5_file.create_dataset("val_accuracy", data=hist.history['val_acc'])
-    hdf5_file.create_dataset("accuracy", data=hist.history['acc'])
-    hdf5_file.close()
+    save_all(hist, X_val, Y_val, np.ones(len(Y_val)), 'equal')
 
 
 if __name__ == '__main__':

@@ -18,6 +18,7 @@ from sklearn.metrics import confusion_matrix, classification_report
 import seaborn as sns
 from evaluate import evaluate
 from plot_history import plot_history
+from save_all import save_all
 
 
 img_rows, img_cols = 400, 400
@@ -59,7 +60,7 @@ def main():
 
     cp = sns.countplot(Y_train)
     fig = cp.get_figure()
-    fig.savefig('countplot.pdf')
+    fig.savefig('pdf/countplot.pdf')
     fig.clf()
 
     if K.image_data_format() == 'channels_first':
@@ -89,7 +90,6 @@ def main():
     # -- Initializing the values for the convolution neural network
 
     nb_epoch = 40
-    # kept very low!
     batch_size = 100
 
     model = Sequential()
@@ -98,7 +98,6 @@ def main():
     model.add(MaxPooling2D(pool_size=(3, 3), padding='valid'))
     model.add(Conv2D(32, kernel_size=(4, 4), padding='valid', activation='elu', strides=(2, 2)))
     model.add(MaxPooling2D(pool_size=(3, 3), padding='valid'))
-    # model.add(Flatten())
     model.add(Dropout(0.25))
     model.add(Dense(1000, activation='elu'))
     model.add(Dense(250, activation='elu'))
@@ -106,8 +105,6 @@ def main():
     model.add(Dense(100, activation='elu'))
     model.add(Dropout(0.5))
     model.add(Dense(32, activation='elu'))
-   # model.add(Dense(16, activation='relu'))
-   # model.add(Dense(8, activation='relu'))
     model.add(Dense(4, activation='softmax'))
 
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
@@ -120,18 +117,7 @@ def main():
                  validation_data=(X_val, Y_val, w_val))
 
     model.save('./model_normal.hdf5')
-
-    evaluate(X_val, Y_val, model, w_val, 'normal')
-
-    hdf5_file = h5py.File('history_normal.h5', mode='w')
-
-    hdf5_file.create_dataset("val_loss", data=hist.history['val_loss'])
-    hdf5_file.create_dataset("loss", data=hist.history['loss'])
-    hdf5_file.create_dataset("val_accuracy", data=hist.history['val_acc'])
-    hdf5_file.create_dataset("accuracy", data=hist.history['acc'])
-    hdf5_file.close()
-
-
+    save_all(hist, X_val, Y_val, w_val, 'normal')
 
 if __name__ == '__main__':
     main()
