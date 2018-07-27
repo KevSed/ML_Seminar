@@ -97,8 +97,8 @@ X.fit_model(0, 1)
 print(model_selector('/home/bjoern/Studium/ML/GridSearch/Files/', [50,64,100,128,256,512], 5, 0.73, 0.05, 0.95))
 
 model_plotter('/home/bjoern/Studium/ML/GridSearch/Files/', 'GridSearch/ModelEval/',[50,64,100,128,256,512],5 )
-model_evaluator(6, '/home/bjoern/Studium/ML/GridSearch/Files/','GridSearch/Performance/',0 )
-
+model_evaluator(6, '/home/bjoern/Studium/ML/GridSearch/Files/','GridSearch/Performance/',0, unblind=False )
+model_evaluator(6, '/home/bjoern/Studium/ML/GridSearch/Files/','GridSearch/PerformanceTest/',0, unblind=True )
 
 
 """

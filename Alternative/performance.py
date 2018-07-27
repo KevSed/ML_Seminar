@@ -67,7 +67,7 @@ def evaluate(X_test, Y_test, weights_Test,model,d,lab, outfile):
     norm_fact2 = np.ones(len(Y_pred_prob[Y_true != label]), dtype=float)*1./len(Y_pred_prob[Y_true != label])
     plt.hist(Y_pred_prob[Y_true == label], alpha=0.5,weights=norm_fact, color='red', bins=20, range=(0., 1.), log = True)
     plt.hist(Y_pred_prob[Y_true != label], alpha=0.5,weights=norm_fact2, color='blue', bins=20, range=(0., 1.), log = True)
-    plt.legend([name[lab], not_name[lab]], loc='upper right')
+    plt.legend([name[lab], not_name[lab]], loc='best')
     plt.xlabel('Probability of being '+name[lab])
     plt.ylabel('Number of entries')
     plt.savefig(outfile+name[lab]+'_or_not_log_'+str(d)+'.pdf')
@@ -75,7 +75,7 @@ def evaluate(X_test, Y_test, weights_Test,model,d,lab, outfile):
 
     plt.hist(Y_pred_prob[Y_true == label], alpha=0.5,weights=norm_fact, color='red',  bins=20,range=(0., 1.), log = False)
     plt.hist(Y_pred_prob[Y_true != label], alpha=0.5,weights=norm_fact2, color='blue', bins=20,range=(0., 1.), log = False)
-    plt.legend([name[lab], not_name[lab]], loc='upper right')
+    plt.legend([name[lab], not_name[lab]], loc='best')
     plt.xlabel('Probability of being '+name[lab])
     plt.ylabel('Number of entries')
     plt.savefig(outfile+name[lab]+'_or_not_'+str(d)+'.pdf')
@@ -114,13 +114,16 @@ def model_selector(infiles, batch_size, tested_models, acc_thr, ovt_thr, loss_th
     return surviving
 
 
-def model_evaluator(mod, infiles, outfiles, lab):
+def model_evaluator(mod, infiles, outfiles, lab, unblind=False):
 
     Path = infiles
     dataset = h5py.File('evaluate.hdf5', mode='r')
     X_Val = dataset['X_Val']
     Y_Val = dataset['Y_Val']
     weights_Val = dataset['weights_Val']
+    X_Test = dataset['X_Test']
+    Y_Test = dataset['Y_Test']
+    weights_Test = dataset['weights_Test']
     print('Processing model '+str(mod))
     json_file = open(Path+'model_'+str(mod)+'.json', 'r')
     loaded_model_json = json_file.read()
@@ -131,7 +134,11 @@ def model_evaluator(mod, infiles, outfiles, lab):
     print('Val accuracy:', accuracy)
     #for lab in [0,1,2,3]:
     #    print('Corrected accuracy: '+str(evaluate(X_Val, Y_Val, weights_Val, model, mod,lab)))
-    return evaluate(X_Val, Y_Val, weights_Val, model, mod,lab, outfiles)
+    if(unblind == False):
+        return evaluate(X_Val, Y_Val, weights_Val, model, mod,lab, outfiles)
+    elif(unblind == True):
+        return evaluate(X_Test, Y_Test, weights_Test, model, mod,lab, outfiles)
+
 
 def model_plotter(infiles,outfiles, batch_size, tested_models):
 
