@@ -57,15 +57,19 @@ def evaluate(X_val, Y_val, model, weights, what):
     ## Plot 0 probability
     for label in range(4):
         Y_pred_prob = Y_pred[:,label]
-        plt.hist(Y_pred_prob[Y_true == label], alpha=0.5, color='red', bins=20, range=(0,1), log = True, density = True)
-        plt.hist(Y_pred_prob[Y_true != label], alpha=0.5, color='blue', bins=20, range=(0,1), log = True, density = True)
-        plt.legend(['NORMAL', klassen[label]], loc='upper right')
+
+        weights_t = np.ones(len(Y_pred_prob[Y_true == label])) / len(Y_pred_prob[Y_true == label])
+        weights_f = np.ones(len(Y_pred_prob[Y_true != label])) / len(Y_pred_prob[Y_true != label])
+
+        plt.hist(Y_pred_prob[Y_true == label], weights=weights_t, alpha=0.5, color='red', bins=20, range=(0,1), log = True)
+        plt.hist(Y_pred_prob[Y_true != label], weights=weights_f, alpha=0.5, color='blue', bins=20, range=(0,1), log = True)
+        plt.legend(['!={}'.format(klassen[label]), klassen[label]], loc='upper right')
         plt.xlabel('Probability of being {}'.format(klassen[label]))
         plt.ylabel('Number of entries')
         plt.savefig('pdf/{}_or_not_log_{}.pdf'.format(klassen[label], what))
         plt.close()
-        plt.hist(Y_pred_prob[Y_true == label], alpha=0.5, color='red',  bins=20, range=(0,1), log = nichTrue, density = True)
-        plt.hist(Y_pred_prob[Y_true != label], alpha=0.5, color='blue', bins=20, range=(0,1), log = nichTrue, density = True)
+        plt.hist(Y_pred_prob[Y_true == label], weights=weights_t, alpha=0.5, color='red', bins=20, range=(0,1))
+        plt.hist(Y_pred_prob[Y_true != label], weights=weights_f , alpha=0.5, color='blue', bins=20, range=(0,1))
         plt.legend(['NORMAL', klassen[label]], loc='upper right')
         plt.xlabel('Probability of being {}'.format(klassen[label]))
         plt.ylabel('Number of entries')
