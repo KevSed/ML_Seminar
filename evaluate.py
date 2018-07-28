@@ -76,35 +76,3 @@ def evaluate(X_val, Y_val, model, weights, what):
     # plot the confusion matrix
     plt.figure(figsize=(8,8))
     plot_confusion_matrix(confusion_mtx, range(4), what, normalize=True)
-
-    # #Plot largest errors
-    # errors = (Y_cls - Y_true != 0)
-    # Y_cls_errors = Y_cls[errors]
-    # Y_pred_errors = Y_pred[errors]
-    # Y_true_errors = Y_true[errors]
-    # X_val_errors = X_val[errors]
-    # # Probabilities of the wrong predicted numbers
-    # Y_pred_errors_prob = np.max(Y_pred_errors, axis = 1)
-    # # Predicted probabilities of the true values in the error set
-    # true_prob_errors = np.diagonal(np.take(Y_pred_errors, Y_true_errors, axis=1))
-    # # Difference between the probability of the predicted label and the true label
-    # delta_pred_true_errors = Y_pred_errors_prob - true_prob_errors
-    # # Sorted list of the delta prob errors
-    # sorted_dela_errors = np.argsort(delta_pred_true_errors)
-    # # Top 6 errors
-    # most_important_errors = sorted_dela_errors[-6:]
-    # # Show the top 6 errors
-    # # display_errors(most_important_errors, X_val_errors, Y_cls_errors, Y_true_errors)
-    #
-    # ##Plot predictions
-    # slice = 10
-    # predicted = model.predict(X_val[:slice]).argmax(-1)
-    # plt.figure(figsize=(16,8))
-    # for i in range(slice):
-    #     plt.subplot(1, slice, i+1)
-    #     plt.imshow(X_val[i].reshape(img_rows, img_cols), interpolation='nearest')
-    #     plt.title('True: {}'.format(klassen[Y_val[i]]))
-    #     plt.text(0, 0, predicted[i], color='black',
-    #              bbox=dict(facecolor='white', alpha=1))
-    #     plt.axis('off')
-    # plt.savefig('pdf/predictions_{}.pdf'.format(what))
