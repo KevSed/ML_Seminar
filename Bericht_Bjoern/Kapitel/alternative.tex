@@ -45,7 +45,7 @@ Als Verlustfunktion wird wie beim CNN die kategorische Kreuzentropie verwendet u
 Um ungeeignete DNN Konfigurationen herauszufiltern werden zwei verschiedene Kriterien definiert, die von den Konfigurationen erfüllt werden müssen. Zum einen muss die Genauigkeit auf dem Validierungsdatensatz größer als $73\,\%$ sein. Das zweite Kriterium filtert Konfigurationen heraus, die ein starkes Übertraining aufweisen, indem gefordert wird, dass der Wert der Verlustfunktion nach der ersten Epoche um mindestens $5\,\%$ nach der letzten Epoche gesunken ist. Nach diesen Anwendung dieser Selektionskriterien verbleiben 12 DNN Konfigurationen. Es stellt sich hierbei vor allem heraus, dass hohe Batch Größen ungeeignet sind, da keine der Konfigurationen mit einer Batch Größe von 512 und nur eine Konfiguration mit einer Batch Größe von 256 die Selektionsschritte passieren. Um nun die optimale herauszufiltern, wird die Gesamtgenauigkeit wie im Falle des CNN berechnet und das Maximum gesucht. Dieses ergibt sich für das Modell 0 unter Verwendung der relu Funktion als Aktivierungsfunktion der versteckten Lagen und der sigmoid Funktion als Aktivierungsfunktion der Ausgangslage bei einer Batch Größe von 50 und beträgt $72\,\%$ auf dem Validierungsdatensatz. Der Verlauf der Genauigkeit und der Werte der Verlustfunktion sind als Funktion der Epochen in Abbildung \ref{fig:DNNacc} respektive \ref{fig:DNNloss} dargestellt. \\
 \begin{figure}[!t]
 \centering
- \includegraphics[width=.55\linewidth]{fig/confusionmatrix6test.pdf}
+ \includegraphics[width=.45\linewidth]{fig/confusionmatrix6test.pdf}
  \caption{Verwirrungsmatrix der gewählten DNN Konfiguration ermittelt auf dem Trainingsdatensatz.}
  \label{fig:ConfmatDNN}
 \end{figure}
@@ -53,10 +53,10 @@ Anhand \ref{fig:DNN} lässt sich zudem feststellen, dass kein signifikantes Übe
 \begin{figure}[!b]
  \centering
    \begin{subfigure}[Genauigkeit]{
- \includegraphics[width=.45\linewidth]{fig/accuracyhistory6.pdf}\label{fig:DNNacc}}
+ \includegraphics[width=.40\linewidth]{fig/accuracyhistory6.pdf}\label{fig:DNNacc}}
   \end{subfigure}
  \begin{subfigure}[Verlustfunktion]{
- \includegraphics[width=.45\linewidth]{fig/losshistory6.pdf}\label{fig:DNNloss}}
+ \includegraphics[width=.40\linewidth]{fig/losshistory6.pdf}\label{fig:DNNloss}}
   \end{subfigure}
   \caption{Genauigkeit und Wert der Verlustfunktion für die gewählte DNN Struktur als Funktion der Epoche bei Propagation des Trainings- und Validierungsdatensatzes. }
   \label{fig:DNN}

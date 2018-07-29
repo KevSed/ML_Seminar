@@ -8,7 +8,7 @@ import h5py
 from keras import optimizers
 from sklearn.metrics import confusion_matrix,classification_report
 import itertools
-
+import matplotlib
 
 def plot_confusion_matrix(cm, d,outfile, classes,
                           normalize=True,
@@ -18,15 +18,16 @@ def plot_confusion_matrix(cm, d,outfile, classes,
     This function prints and plots the confusion matrix.
     Normalization can be applied by setting `normalize=True`.
     """
+    matplotlib.rcParams.update({'font.size': 18})
     if normalize:
         cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
 
     plt.imshow(cm, interpolation='nearest', cmap=cmap)
     plt.title(title)
-    plt.colorbar()
+    #plt.colorbar()
     tick_marks = np.arange(len(classes))
-    plt.xticks(tick_marks, classes, rotation=45)
-    plt.yticks(tick_marks, classes)
+    plt.xticks(tick_marks, ['NORMAL', 'CNV', 'DME', 'DRUSEN'], rotation=45)
+    plt.yticks(tick_marks, ['NORMAL', 'CNV', 'DME', 'DRUSEN'])
 
     thresh = cm.max() / 2.
     for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
@@ -59,7 +60,7 @@ def evaluate(X_test, Y_test, weights_Test,model,d,lab, outfile):
     # Convert validation observations to one hot vectors
     Y_true = np.argmax(Y_test, axis = 1)
     print('Classification Report:\n', classification_report(Y_true,Y_cls))
-
+    matplotlib.rcParams.update({'font.size': 14})
     ## Plot 0 probability
     label=lab
     Y_pred_prob = Y_pred[:,label]
@@ -104,9 +105,9 @@ def model_selector(infiles, batch_size, tested_models, acc_thr, ovt_thr, loss_th
                 if(val_acc < acc_thr):
                     print('Model '+str(int(s/6))+' fails accury selection for batch size ' + str(batch_size[k]))
                     continue
-                if(val_acc < acc-ovt_thr):
-                    print('Model '+str(int(s/6))+' fails overtraining selection for batch size ' + str(batch_size[k]))
-                    continue
+                #if(val_acc < acc-ovt_thr):
+                #    print('Model '+str(int(s/6))+' fails overtraining selection for batch size ' + str(batch_size[k]))
+                #    continue
                 if(loss_end > loss_thr*loss_start):
                     print('Model '+str(int(s/6))+' fails loss selection for batch size ' + str(batch_size[k]))
                     continue
@@ -141,7 +142,7 @@ def model_evaluator(mod, infiles, outfiles, lab, unblind=False):
 
 
 def model_plotter(infiles,outfiles, batch_size, tested_models):
-
+    matplotlib.rcParams.update({'font.size': 14})
     Path = infiles
     for i in range(tested_models):
         softmax_relu = []
