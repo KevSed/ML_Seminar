@@ -1,10 +1,10 @@
 import numpy as np
 from sklearn.metrics import confusion_matrix, classification_report
+import matplotlib
 import matplotlib.pyplot as plt
 import itertools
 nichTrue = False
 img_rows, img_cols = 400, 400
-
 
 def plot_confusion_matrix(cm, classes, what,
                           normalize=nichTrue,
@@ -14,6 +14,7 @@ def plot_confusion_matrix(cm, classes, what,
     This function prints and plots the confusion matrix.
     Normalization can be applied by setting `normalize=True`.
     """
+    matplotlib.rcParams.update({'font.size': 18})
     plt.title(title + ' ' + what)
     tick_marks = np.arange(len(classes))
     plt.xticks(tick_marks, ['NORMAL', 'CNV', 'DME', 'DRUSEN'], rotation=45)
@@ -61,6 +62,7 @@ def evaluate(X_val, Y_val, model, weights, what):
         weights_t = np.ones(len(Y_pred_prob[Y_true == label])) / len(Y_pred_prob[Y_true == label])
         weights_f = np.ones(len(Y_pred_prob[Y_true != label])) / len(Y_pred_prob[Y_true != label])
 
+        plt.figure()
         plt.hist(Y_pred_prob[Y_true == label], weights=weights_t, alpha=0.5, color='red', bins=20, range=(0,1), log = True)
         plt.hist(Y_pred_prob[Y_true != label], weights=weights_f, alpha=0.5, color='blue', bins=20, range=(0,1), log = True)
         plt.legend(['!={}'.format(klassen[label]), klassen[label]], loc='upper right')
