@@ -1,0 +1,38 @@
+\section{Datensatz}
+\begin{table}[!h]
+\centering
+\caption{Zusammensetzung des untersuchten Datensatzes aufgeteilt nach den im Datensatz vorhandenen Krankheiten, CNV, DME und DRUSEN, und Aufnahmen, die keine dieser Krankheiten aufweisen und mit NORMAL gekennzeichnet werden.}
+\label{tab:datacomp}
+ \begin{tabular}{|c|c|}
+ \hline
+ Erkrankung & Anzahl \\
+ \hline
+ NORMAL & 26315	\\
+ CNV &  37205 \\
+ DME &	11348	\\	
+ DRUSEN & 8616	\\
+ \hline
+ Total	& 83484\\
+ \hline
+ \end{tabular}
+\end{table}
+Der verwendete Datensatz besitzt die in Tabelle \ref{tab:datacomp} dargestellte Zusammensetzung. In Abbildung \ref{fig:example} finden sich Beispiel-Aufnahmen für jede der Klassen dar. Die Aufnahmen sind in Graustufen aufgezeichnet, wodurch die Pixelwerte den Wertebereich $[0,\,255]$ abdecken, wobei 0 schwarz und 255 Weiß entspricht. Die Erkrankung CNV ist in Abbildung \ref{fig:CNVexa} abgebildet und durch eine deutliche Schwellung der Retina zu erkennen. Abbildung \ref{fig:DMEexa} zeigt eine Retina, die von einem DME befallen ist, was deutlich an der ründlichen, schwarzen Färbung des Bildes in einem Bereich an dem im Vergleich zu \ref{fig:NORMexa} helle Färbungen erwartet werden. Auch die DRUSEN lassen sich in Abbildung \ref{fig:DRUSENexa} gut erkennen, da unterhalb der Netzhaut deutliche Ausbuchtungen zu sehen sind, die im Vergleich zu \ref{fig:NORMexa} nicht erwartet werden. Es sollte jedoch hier herausgestellt werden, dass die Aufnahmen in Abbildung \ref{fig:example} so gewählt werden, dass sie durch das bloße Auge bereits unterschieden werden können, um ideale Beispiele darzustellen. Die Aufnahmen lassen sich in vielen Fällen nicht per Auge in die Klassen einteilen, sodass für diese eine andere Methodik oder Erfahrung in der Auswertung dieser Aufnahmen notwendig ist.  
+\begin{figure}[!b]
+\centering
+ \begin{subfigure}[NORMAL\label{fig:NORMexa}]{
+   \includegraphics[width=.20\linewidth]{fig/NORMAL.jpeg}}
+ \end{subfigure}
+ \begin{subfigure}[CNV \label{fig:CNVexa}]{
+ \includegraphics[width=.20\linewidth]{fig/CNV.jpeg}}
+ \end{subfigure}
+ \begin{subfigure}[DME \label{fig:DMEexa}]{
+   \includegraphics[width=.20\linewidth]{fig/DME.jpeg}}
+ \end{subfigure}
+ \begin{subfigure}[DRUSEN \label{fig:DRUSENexa}]{ 
+   \includegraphics[width=.20\linewidth]{fig/DRUSEN.jpeg}}
+ \end{subfigure}
+ \caption{Beispiel Aufnahmen der unterschiedlichen Klassen der zu untersuchenden Aufnahmen.}
+ \label{fig:example}
+\end{figure}
+Da die Aufnahmen unterschiedliche Größen aufweisen werden diese beim Einlesen auf die Größe $(400,\,400)$ dimensioniert. Werden dabei zusätzliche Pixel erzeugt, so werden diese weiß gesetzt. \\
+Der Datensatz wird in zwei Teile aufgeteilt, $70\,\%$ formen den Datensatz, welcher im Folgenden als Trainingsdatensatz bezeichnet wird, auf dem das Training stattfindet und $30\,\%$ den Validierungsdatensatz auf dem der Trainingserfolg validiert wird. 

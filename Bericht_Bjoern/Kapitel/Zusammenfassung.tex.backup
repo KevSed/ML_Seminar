@@ -1,0 +1,4 @@
+\section{Zusammenfassung und Schlussfolgerungen}
+
+In dem vorliegenden Projektbericht wird eine Methode zur Klassifizierung von Retina Aufnahmen, welche durch die optische Kohärenztomographie erstellt werden, vorgestellt, die auf Maschinellem Lernen basiert. Hierbei wird zwischen 4 Klassen von Aufnahmen unterschieden. Es gibt drei Klassen, welche \\
+Es wird gezeigt, dass durch ein neuronales Netz, welches aus vollständig vernetzten Faltungs- und dichten Lagen

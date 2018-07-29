@@ -1,0 +1,47 @@
+@misc{Anleitung,
+  author = {TU Dortmund},
+  title = {{Versuch 21 - Optisches Pumpen}},
+  howpublished = "\url{http://129.217.224.2/HOMEPAGE/Anleitung_FPMa.html}",
+  year = {}, 
+  note = "[Online; abgerufen 14.07.2017]"
+}
+
+@misc{OpticalPumpingGuide,
+	author = {TEACHSPIN INC.},
+	title = {{OPTICAL PUMPING OF RUBIDIUM OP1-B \\ Guide to the Experiment}},
+	howpublished = "\url{https://www.pa.msu.edu/courses/2016spring/PHY451/Experiments/optical_pumping/manual_teachspin_optical_pumping.pdf}",
+	pages = {26,54},
+	year = {2002}, 
+	note = "[Online; abgerufen 21.07.2017]"
+}
+
+
+@misc{BfeldLit,
+	        author = {{Deutsches GeoForschungszentrum Potsdam}},
+	        title = {{Preliminary Hourly Mean Values Plot}},
+	        howpublished =
+	"\url{http://www-app3.gfz-potsdam.de/obs/niemegk/monrep/wwhmean.html}",
+	        note = "[Online; abgerufen 26.07.2017]"
+	}
+
+@book{nolting,
+  title={Grundkurs Theoretische Physik 5/1: Quantenmechanische Grundlagen},
+  author={Nolting, W.},
+  isbn={9783540400714},
+  series={Grundkurs Theoretische Physik / Wolfgang Nolting},
+  year={2001},
+  publisher={Springer}
+
+}
+
+@book{OCT,
+title={Optical Coherence Tomography},
+author={Drexler, W. and Fujimoto, J.},
+year={2008},
+publisher={Springer},
+isbn={9783540775492},
+doi={10.1007/978-3-540-77550-8}
+}
+
+
+

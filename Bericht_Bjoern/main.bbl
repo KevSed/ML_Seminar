@@ -1,0 +1,20 @@
+\begin{thebibliography}{1}
+
+\bibitem{OCT}
+W.~Drexler and J.~Fujimoto,
+\newblock {\em Optical Coherence Tomography} (Springer, 2008).
+
+\bibitem{Dataset}
+{Retinal OCT Images (optical coherence tomography)},
+\newblock \url{http://www-app3.gfz-potsdam.de/obs/niemegk/monrep/wwhmean.html},
+\newblock [Online; abgerufen am 31.07.2018].
+
+\bibitem{MNIST}
+D.~C. Ciresan, U.~Meier, and J.~Schmidhuber,
+\newblock CoRR {\bf abs/1202.2745} (2012), 1202.2745.
+
+\bibitem{Adam}
+D.~P. Kingma and J.~Ba,
+\newblock CoRR {\bf abs/1412.6980} (2014), 1412.6980.
+
+\end{thebibliography}

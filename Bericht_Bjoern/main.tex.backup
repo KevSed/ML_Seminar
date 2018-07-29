@@ -1,0 +1,80 @@
+\documentclass[12pt,a4paper,headsepline]{scrartcl}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	packages einbinden aus packages.tex  %
+\input{packages} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\pagestyle{headings}
+\usepackage[autooneside=true,automark]{scrlayer-scrpage} %Kopfzeilen für KOMA Script
+\clearpairofpagestyles
+%\automark{subsection}
+\ihead{\headmark}
+\chead{Björn Wendland, Rigo Bause}
+\ohead{\pagemark}
+%\ifoot{\pagemark}
+
+\renewcommand*\pagemark{{\usekomafont{pagenumber}\nobreakspace\thepage}}
+\addtokomafont{pageheadfoot}{\upshape}
+
+\setlength{\columnsep}{25pt}
+\setlength{\columnseprule}{0.4pt}
+
+%	Date leading zeros
+\newcommand{\leadingzero}[1]{\ifnum #1<10 0\the#1\else\the#1\fi} 
+%	new date \today formats
+\newcommand{\todayI}{\the\year"~\leadingzero{\month}"~\leadingzero{\day}}     %  YYYY-MM-DD
+\newcommand{\todayII}{\the\year\leadingzero{\month}\leadingzero{\day}}        %  YYYYMMDD
+\newcommand{\todayIII}{\leadingzero{\day}/\leadingzero{\month}/\the\year}     %  DD/MM/YYYY
+\newcommand{\todayIV}{\leadingzero{\day}.\leadingzero{\month}.\the\year}      %  DD.MM.YYYY
+\newcommand{\todayV}{\the\day.\the\month.\the\year}                           %  D.M.YYYY
+\newcommand{\todayVI}{\the\day.~\monthword{\the\month}. \the\year}            %  D. MMM. YYYY
+\newcommand{\todayVII}{\leadingzero{\day}.~\monthword{\the\month}. \the\year} %  DD. MMM. YYYY
+
+
+%Title, author, date 
+\title{\includegraphics[scale=0.8]{tud-logo.jpg} \\ \vspace*{1cm} Maschinelles Lernen für Physiker*innen \\ -Master Physik- \\ \vspace*{1cm} 
+Klassifizierung von Retina Aufnahmen mittels Optischer Kohärenztomographie \vspace*{1.5cm} }
+
+
+\author{Kevin Sedlaczeck \\ \href{mailto:kevin.sedlaczeck@tu-dortmund.de}{kevin.sedlaczeck@tu-dortmund.de} \and 
+	Björn Wendland \\ \href{mailto:bjoern.wendland@tu-dortmund.de}{bjoern.wendland@tu-dortmund.de}}
+
+\date{ \vspace*{1.5cm} 
+\begin{align*}
+\text{Projektbericht vorgelegt von Björn Wendland} \\
+&\text{Datum der Abgabe:}  \quad \todayIV
+\end{align*}
+}
+
+
+\begin{document}
+
+%	Titlepage	
+	\maketitle
+	\vfill
+	{\centering \Large{TU Dortmund - Fakultät Physik} \par}
+	\thispagestyle{empty} 
+
+\clearpage 
+
+%	Kapitel einfügen	
+\input{Kapitel/einleitung}
+	
+
+
+%	Literaturverzeichnis	%
+\bibliographystyle{h-physrev}	
+\bibliography{mybib}
+
+%	Anhang	%
+%\clearpage	
+%\appendix
+%\input{Kapitel/anhang}
+
+\clearpage
+
+
+
+
+\end{document}	
