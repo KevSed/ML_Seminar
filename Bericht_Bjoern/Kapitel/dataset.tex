@@ -1,0 +1,37 @@
+\section{Datensatz}
+\begin{table}[!h]
+\centering
+\caption{Zusammensetzung des untersuchten Datensatzes aufgeteilt nach den im Datensatz vorhandenen Krankheiten, CNV, DME und DRUSEN, und Aufnahmen, die keine dieser Krankheiten aufweisen und mit NORMAL gekennzeichnet werden.}
+\label{tab:datacomp}
+ \begin{tabular}{|c|c|}
+ \hline
+ Erkrankung & Anzahl \\
+ \hline
+ NORMAL & 26315	\\
+ CNV &  37205 \\
+ DME &	11348	\\	
+ DRUSEN & 8616	\\
+ \hline
+ Total	& 83484\\
+ \hline
+ \end{tabular}
+\end{table}
+Der verwendete Datensatz besitzt die in Tabelle \ref{tab:datacomp} dargestellte Zusammensetzung und in Abbildung \ref{fig:example} sind Beispielaufnahmen für jede der Klassen dargestellt. Die Aufnahmen sind in Graustufen aufgezeichnet, wodurch die Pixelwerte den Wertebereich $[0,\,255]$ abdecken, wobei schwarze Pixel dem Wert 0 und weiße Pixel dem Wert 255 entsprechen. Die Erkrankung CNV ist in Abbildung \ref{fig:CNVexa} abgebildet und durch eine deutliche Schwellung der Retina zu erkennen. Abbildung \ref{fig:DMEexa} zeigt eine Retina, die von einem DME befallen ist, was an der ründlichen, schwarzen Färbung, die einer Gefäßausbuchtung entspricht, innerhalb einer deutlichen Schwellung der Retina. Auch die DRUSEN lassen sich in Abbildung \ref{fig:DRUSENexa} gut erkennen, da unterhalb der Netzhaut deutliche Ausbuchtungen zu sehen sind, die im Vergleich zu der NORMAL Aufnahem in Abbildung \ref{fig:NORMexa} nicht erwartet werden. Es sollte jedoch hier herausgestellt werden, dass die Aufnahmen in Abbildung \ref{fig:example} ideale Beispiele darstellen, bei denen die Klassifizierung auch durch unerfahrene Betrachter vorgenommen werden kann. Bei viele Aufnahmen ist dies jedoch nicht der Fall, sodass zur Klassifizierung eine andere Methodik oder Erfahrung in der Auswertung dieser Aufnahmen notwendig ist.  
+\begin{figure}[!b]
+\centering
+ \begin{subfigure}[NORMAL\label{fig:NORMexa}]{
+   \includegraphics[width=.20\linewidth]{fig/NORMAL.jpeg}}
+ \end{subfigure}
+ \begin{subfigure}[CNV \label{fig:CNVexa}]{
+ \includegraphics[width=.20\linewidth]{fig/CNV.jpeg}}
+ \end{subfigure}
+ \begin{subfigure}[DME \label{fig:DMEexa}]{
+   \includegraphics[width=.20\linewidth]{fig/DME.jpeg}}
+ \end{subfigure}
+ \begin{subfigure}[DRUSEN \label{fig:DRUSENexa}]{ 
+   \includegraphics[width=.20\linewidth]{fig/DRUSEN.jpeg}}
+ \end{subfigure}
+ \caption{OCT Aufnahmen der Retina, die beispielhaft ein Aufnahme jeder untersuchten Klasse im Datensatz zeigen. Dabei zeigt Abbildung \ref{fig:NORMexa} eine OCT Aufnahme der Klasse NORMAL, die von keiner der Krankheiten, CNV, DME und DRUSEN, befallen ist, welche in den Abbildungen \ref{fig:CNVexa}, \ref{fig:DMEexa} repektive \ref{fig:DRUSENexa} dargestellt sind.}
+ \label{fig:example}
+\end{figure}
+\setcounter{subfigure}{0}

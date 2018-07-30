@@ -1,0 +1,8 @@
+\select@language {ngerman}
+\select@language {ngerman}
+\contentsline {section}{\numberline {1}Einleitung}{1}{section.1}
+\contentsline {section}{\numberline {2}Datensatz}{2}{section.2}
+\contentsline {section}{\numberline {3}Faltendes neuronales Netz zur Klassifizierung von OCT Aufnahmen der Retina}{3}{section.3}
+\contentsline {section}{\numberline {4}Flaches tiefes neuronales Netz zur Klassifizierung von OCT Aufnahmen der Retina}{9}{section.4}
+\contentsline {section}{\numberline {5}Zusammenfassung und Schlussfolgerungen}{12}{section.5}
+\contentsline {section}{\numberline {A}Anhang}{14}{appendix.A}
