@@ -52,16 +52,16 @@
 \citation{Adam}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Methoden zur Klassifizierung von OCT Aufnahmen der Retina}{3}{section.3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Tiefes faltendes neuronales Netz (CNN)}{3}{subsection.3.1}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Referenzstruktur der CNN. Die Werte in den unteren Zeilen repr\IeC {\"a}sentieren die Neuronenstruktur am Ausgang jeder Lage. Im Falle einer Dropout Lage stellt der Wert die festgelegte Rate dar. F\IeC {\"u}r die Conv2D Lagen werden zudem die Anzahl an verwendeten Kernels sowie ihrer Dimension und die Schrittweite angegeben, f\IeC {\"u}r die Pooling Lagen, die definierte Dimension des verwendeten Fensters.\relax }}{4}{table.caption.3}}
-\newlabel{fig:refstrukt}{{2}{4}{Referenzstruktur der CNN. Die Werte in den unteren Zeilen repräsentieren die Neuronenstruktur am Ausgang jeder Lage. Im Falle einer Dropout Lage stellt der Wert die festgelegte Rate dar. Für die Conv2D Lagen werden zudem die Anzahl an verwendeten Kernels sowie ihrer Dimension und die Schrittweite angegeben, für die Pooling Lagen, die definierte Dimension des verwendeten Fensters.\relax }{table.caption.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Schematische Darstellung der Referenzstruktur des CNN. Die Werte in den unteren Zeilen repr\IeC {\"a}sentieren die Neuronenstruktur am Ausgang jeder Lage. Im Falle einer Dropout Lage stellt der Wert die festgelegte Rate dar. F\IeC {\"u}r die Conv2D Lagen werden zudem die Anzahl an verwendeten Kernels sowie ihrer Dimension und die Schrittweite angegeben. F\IeC {\"u}r die Pooling Lagen werden die definierten Dimensionen der verwendeten Fenster angegeben.\relax }}{4}{table.caption.3}}
+\newlabel{fig:refstrukt}{{2}{4}{Schematische Darstellung der Referenzstruktur des CNN. Die Werte in den unteren Zeilen repräsentieren die Neuronenstruktur am Ausgang jeder Lage. Im Falle einer Dropout Lage stellt der Wert die festgelegte Rate dar. Für die Conv2D Lagen werden zudem die Anzahl an verwendeten Kernels sowie ihrer Dimension und die Schrittweite angegeben. Für die Pooling Lagen werden die definierten Dimensionen der verwendeten Fenster angegeben.\relax }{table.caption.3}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Genauigkeit}}}{5}{figure.3}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Verlustfunktion}}}{5}{figure.3}}
 \newlabel{fig:refstrukacc}{{3(a)}{5}{Subfigure 3(a)}{subfigure.3.1}{}}
 \newlabel{sub@fig:refstrukacc}{{(a)}{5}{Subfigure 3(a)\relax }{subfigure.3.1}{}}
 \newlabel{fig:refstrukloss}{{3(b)}{5}{Subfigure 3(b)}{subfigure.3.2}{}}
 \newlabel{sub@fig:refstrukloss}{{(b)}{5}{Subfigure 3(b)\relax }{subfigure.3.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Genauigkeit \ref  {fig:refstrukacc} und Wert der Verlustfunktion \ref  {fig:refstrukloss} nach jeder Epoche des Trainings bei Propagation des Trainingsdatensatzes und Validierungsdatensatzes durch das CNN mit der Referenzstruktur. \relax }}{5}{figure.3}}
-\newlabel{fig:refstruk}{{3}{5}{Genauigkeit \ref {fig:refstrukacc} und Wert der Verlustfunktion \ref {fig:refstrukloss} nach jeder Epoche des Trainings bei Propagation des Trainingsdatensatzes und Validierungsdatensatzes durch das CNN mit der Referenzstruktur. \relax }{figure.3}{}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Genauigkeit}}}{5}{figure.3}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Verlustfunktion}}}{5}{figure.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Genauigkeit \ref  {fig:refstrukacc} und Wert der Verlustfunktion \ref  {fig:refstrukloss} nach jeder Epoche des Trainings bei Propagation des Trainings- und Validierungsdatensatzes durch das CNN mit der Referenzstruktur. \relax }}{5}{figure.3}}
+\newlabel{fig:refstruk}{{3}{5}{Genauigkeit \ref {fig:refstrukacc} und Wert der Verlustfunktion \ref {fig:refstrukloss} nach jeder Epoche des Trainings bei Propagation des Trainings- und Validierungsdatensatzes durch das CNN mit der Referenzstruktur. \relax }{figure.3}{}}
 \newlabel{fig:confmatun}{{4(a)}{6}{Subfigure 4(a)}{subfigure.4.1}{}}
 \newlabel{sub@fig:confmatun}{{(a)}{6}{Subfigure 4(a)\relax }{subfigure.4.1}{}}
 \newlabel{fig:confmatweight}{{4(b)}{6}{Subfigure 4(b)}{subfigure.4.2}{}}
@@ -74,69 +74,71 @@
 \newlabel{sub@fig:confmatrelu}{{(a)}{7}{Subfigure 5(a)\relax }{subfigure.5.1}{}}
 \newlabel{fig:confmatsmaller}{{5(b)}{7}{Subfigure 5(b)}{subfigure.5.2}{}}
 \newlabel{sub@fig:confmatsmaller}{{(b)}{7}{Subfigure 5(b)\relax }{subfigure.5.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Verwirrungsmatrix bei Verwendung des gewichteten Datensatzes des CNN mit der Referenzstruktur mit relu als Aktivierungsfunktion \ref  {fig:confmatrelu} und ver\IeC {\"a}nderter Struktur der dichten Lagen \ref  {fig:confmatsmaller}.\relax }}{7}{figure.5}}
-\newlabel{fig:confmatrelusmall}{{5}{7}{Verwirrungsmatrix bei Verwendung des gewichteten Datensatzes des CNN mit der Referenzstruktur mit relu als Aktivierungsfunktion \ref {fig:confmatrelu} und veränderter Struktur der dichten Lagen \ref {fig:confmatsmaller}.\relax }{figure.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Verwirrungsmatrix bei Verwendung des gewichteten Datensatzes des CNN mit der Referenzstruktur mit relu als Aktivierungsfunktion der versteckten Lagen \ref  {fig:confmatrelu} und ver\IeC {\"a}nderter Struktur der dichten Lagen \ref  {fig:confmatsmaller}.\relax }}{7}{figure.5}}
+\newlabel{fig:confmatrelusmall}{{5}{7}{Verwirrungsmatrix bei Verwendung des gewichteten Datensatzes des CNN mit der Referenzstruktur mit relu als Aktivierungsfunktion der versteckten Lagen \ref {fig:confmatrelu} und veränderter Struktur der dichten Lagen \ref {fig:confmatsmaller}.\relax }{figure.5}{}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {relu als Aktivierungsfunktion}}}{7}{figure.5}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Ver\IeC {\"a}nderte Struktur des CNN}}}{7}{figure.5}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Genauigkeit}}}{7}{figure.6}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Verlustfunktion}}}{7}{figure.6}}
+\newlabel{fig:accsmaller}{{6(a)}{7}{Subfigure 6(a)}{subfigure.6.1}{}}
+\newlabel{sub@fig:accsmaller}{{(a)}{7}{Subfigure 6(a)\relax }{subfigure.6.1}{}}
+\newlabel{fig:losssmaller}{{6(b)}{7}{Subfigure 6(b)}{subfigure.6.2}{}}
+\newlabel{sub@fig:losssmaller}{{(b)}{7}{Subfigure 6(b)\relax }{subfigure.6.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Genauigkeit \ref  {fig:accsmaller} und Wert der Verlustfunktion \ref  {fig:losssmaller} nach jeder Epoche des Trainings bei Propagation des Trainingsdatensatzes und Validierungsdatensatzes durch das CNN mit der angepassten Struktur der dichten Lagen.\relax }}{7}{figure.6}}
+\newlabel{fig:smallerperf}{{6}{7}{Genauigkeit \ref {fig:accsmaller} und Wert der Verlustfunktion \ref {fig:losssmaller} nach jeder Epoche des Trainings bei Propagation des Trainingsdatensatzes und Validierungsdatensatzes durch das CNN mit der angepassten Struktur der dichten Lagen.\relax }{figure.6}{}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {NORMAL}}}{8}{figure.7}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {CNV}}}{8}{figure.7}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {DME}}}{8}{figure.7}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {DRUSEN}}}{8}{figure.7}}
-\newlabel{fig:probdrusen}{{3.1}{8}{Tiefes faltendes neuronales Netz (CNN)}{figure.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Flaches tiefes neuronales Netz (DNN)}{8}{subsection.3.2}}
-\newlabel{fig:accsmaller}{{6(a)}{8}{Subfigure 6(a)}{subfigure.6.1}{}}
-\newlabel{sub@fig:accsmaller}{{(a)}{8}{Subfigure 6(a)\relax }{subfigure.6.1}{}}
-\newlabel{fig:losssmaller}{{6(b)}{8}{Subfigure 6(b)}{subfigure.6.2}{}}
-\newlabel{sub@fig:losssmaller}{{(b)}{8}{Subfigure 6(b)\relax }{subfigure.6.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Genauigkeit \ref  {fig:accsmaller} und Wert der Verlustfunktion \ref  {fig:losssmaller} nach jeder Epoche des Trainings bei Propagation des Trainingsdatensatzes und Validierungsdatensatzes durch das CNN mit der angepassten Struktur der dichten Lagen.\relax }}{8}{figure.6}}
-\newlabel{fig:smallerperf}{{6}{8}{Genauigkeit \ref {fig:accsmaller} und Wert der Verlustfunktion \ref {fig:losssmaller} nach jeder Epoche des Trainings bei Propagation des Trainingsdatensatzes und Validierungsdatensatzes durch das CNN mit der angepassten Struktur der dichten Lagen.\relax }{figure.6}{}}
-\newlabel{fig:probnorm}{{7(a)}{9}{Subfigure 7(a)}{subfigure.7.1}{}}
-\newlabel{sub@fig:probnorm}{{(a)}{9}{Subfigure 7(a)\relax }{subfigure.7.1}{}}
-\newlabel{fig:probcnv}{{7(b)}{9}{Subfigure 7(b)}{subfigure.7.2}{}}
-\newlabel{sub@fig:probcnv}{{(b)}{9}{Subfigure 7(b)\relax }{subfigure.7.2}{}}
-\newlabel{fig:probdme}{{7(c)}{9}{Subfigure 7(c)}{subfigure.7.3}{}}
-\newlabel{sub@fig:probdme}{{(c)}{9}{Subfigure 7(c)\relax }{subfigure.7.3}{}}
-\newlabel{fig:probdrusen}{{7(d)}{9}{Subfigure 7(d)}{subfigure.7.4}{}}
-\newlabel{sub@fig:probdrusen}{{(d)}{9}{Subfigure 7(d)\relax }{subfigure.7.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Verteilung der von dem CNN vorhergesagten Wahrscheinlichkeiten f\IeC {\"u}r die Aufnahmen innerhalb einer Klasse ein Mitglied der Klasse zu sein und f\IeC {\"u}r die Aufnahmen, die nicht dieser Klasse angeh\IeC {\"o}ren. Die Abbildungen \ref  {fig:probnorm}, \ref  {fig:probcnv}, \ref  {fig:probdme} und \ref  {fig:probdrusen} zeigen dies f\IeC {\"u}r die Klassen NORMAL, CNV, DME respektive DRUSEN. \relax }}{9}{figure.7}}
-\newlabel{fig:probCNN}{{7}{9}{Verteilung der von dem CNN vorhergesagten Wahrscheinlichkeiten für die Aufnahmen innerhalb einer Klasse ein Mitglied der Klasse zu sein und für die Aufnahmen, die nicht dieser Klasse angehören. Die Abbildungen \ref {fig:probnorm}, \ref {fig:probcnv}, \ref {fig:probdme} und \ref {fig:probdrusen} zeigen dies für die Klassen NORMAL, CNV, DME respektive DRUSEN. \relax }{figure.7}{}}
+\newlabel{fig:probnorm}{{7(a)}{8}{Subfigure 7(a)}{subfigure.7.1}{}}
+\newlabel{sub@fig:probnorm}{{(a)}{8}{Subfigure 7(a)\relax }{subfigure.7.1}{}}
+\newlabel{fig:probcnv}{{7(b)}{8}{Subfigure 7(b)}{subfigure.7.2}{}}
+\newlabel{sub@fig:probcnv}{{(b)}{8}{Subfigure 7(b)\relax }{subfigure.7.2}{}}
+\newlabel{fig:probdme}{{7(c)}{8}{Subfigure 7(c)}{subfigure.7.3}{}}
+\newlabel{sub@fig:probdme}{{(c)}{8}{Subfigure 7(c)\relax }{subfigure.7.3}{}}
+\newlabel{fig:probdrusen}{{7(d)}{8}{Subfigure 7(d)}{subfigure.7.4}{}}
+\newlabel{sub@fig:probdrusen}{{(d)}{8}{Subfigure 7(d)\relax }{subfigure.7.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Verteilung der von dem CNN vorhergesagten Wahrscheinlichkeiten f\IeC {\"u}r die Aufnahmen innerhalb einer Klasse X und f\IeC {\"u}r die Aufnahmen, die nicht dieser Klasse angeh\IeC {\"o}ren (!=X), der Klasse X anzugeh\IeC {\"o}ren. Die Abbildungen \ref  {fig:probnorm}, \ref  {fig:probcnv}, \ref  {fig:probdme} und \ref  {fig:probdrusen} zeigen dies f\IeC {\"u}r die Klassen NORMAL, CNV, DME respektive DRUSEN. \relax }}{8}{figure.7}}
+\newlabel{fig:probCNN}{{7}{8}{Verteilung der von dem CNN vorhergesagten Wahrscheinlichkeiten für die Aufnahmen innerhalb einer Klasse X und für die Aufnahmen, die nicht dieser Klasse angehören (!=X), der Klasse X anzugehören. Die Abbildungen \ref {fig:probnorm}, \ref {fig:probcnv}, \ref {fig:probdme} und \ref {fig:probdrusen} zeigen dies für die Klassen NORMAL, CNV, DME respektive DRUSEN. \relax }{figure.7}{}}
+\newlabel{fig:probdrusen}{{3.1}{9}{Tiefes faltendes neuronales Netz (CNN)}{figure.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Flaches tiefes neuronales Netz (DNN)}{9}{subsection.3.2}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Modell 0}}}{10}{figure.8}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Modell 1}}}{10}{figure.8}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {Modell 2}}}{10}{figure.8}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {Modell 3}}}{10}{figure.8}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(e)}{\ignorespaces {Modell 4}}}{10}{figure.8}}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Getestete Grundstrukturen des DNN.\relax }}{10}{table.caption.4}}
-\newlabel{tab:DNNstruk}{{3}{10}{Getestete Grundstrukturen des DNN.\relax }{table.caption.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Getestete Grundstrukturen des DNN. Die Anzahl an Neuronen in der $i$-ten versteckten Lage und die Dropout Rate in der $i$-ten Dropout Lage sind durch das $i$-te Element der entsprechenden List dargestellt. Auf die $i$-te versteckte Lage folgt dabei die $i$-te Dropout Lage.\relax }}{10}{table.caption.4}}
+\newlabel{tab:DNNstruk}{{3}{10}{Getestete Grundstrukturen des DNN. Die Anzahl an Neuronen in der $i$-ten versteckten Lage und die Dropout Rate in der $i$-ten Dropout Lage sind durch das $i$-te Element der entsprechenden List dargestellt. Auf die $i$-te versteckte Lage folgt dabei die $i$-te Dropout Lage.\relax }{table.caption.4}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Erhaltene Genauigkeiten des DNN f\IeC {\"u}r die verschiedenen Konfigurationen der einzelnen Modelle als Funktion der Batch Gr\IeC {\"o}\IeC {\ss }e.\relax }}{11}{figure.8}}
 \newlabel{fig:accgrid}{{8}{11}{Erhaltene Genauigkeiten des DNN für die verschiedenen Konfigurationen der einzelnen Modelle als Funktion der Batch Größe.\relax }{figure.8}{}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Verlustfunktion}}}{11}{figure.9}}
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Verwirrungsmatrix}}}{11}{figure.9}}
-\newlabel{fig:DNNloss}{{9(a)}{12}{Subfigure 9(a)}{subfigure.9.1}{}}
-\newlabel{sub@fig:DNNloss}{{(a)}{12}{Subfigure 9(a)\relax }{subfigure.9.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Genauigkeit und Wert der Verlustfunktion f\IeC {\"u}r die gew\IeC {\"a}hlte DNN Struktur als Funktion der Epoche bei Propagation des Trainings- und Validierungsdatensatzes. \relax }}{12}{figure.9}}
-\newlabel{fig:DNN}{{9}{12}{Genauigkeit und Wert der Verlustfunktion für die gewählte DNN Struktur als Funktion der Epoche bei Propagation des Trainings- und Validierungsdatensatzes. \relax }{figure.9}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Zusammenfassung und Schlussfolgerungen}{13}{section.4}}
+\newlabel{fig:DNNloss}{{9(a)}{11}{Subfigure 9(a)}{subfigure.9.1}{}}
+\newlabel{sub@fig:DNNloss}{{(a)}{11}{Subfigure 9(a)\relax }{subfigure.9.1}{}}
+\newlabel{fig:confmatDNN}{{9(b)}{11}{Subfigure 9(b)}{subfigure.9.2}{}}
+\newlabel{sub@fig:confmatDNN}{{(b)}{11}{Subfigure 9(b)\relax }{subfigure.9.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Wert der Verlustfunktion nach jeder Epoche \ref  {fig:DNNloss} bei Propagation des Trainings- und Validierungsdatensatzes und Verwirrungsmatrix \ref  {fig:confmatDNN} bei Propagation des Testdatensatzes f\IeC {\"u}r die gew\IeC {\"a}hlte DNN Struktur . \relax }}{11}{figure.9}}
+\newlabel{fig:DNN}{{9}{11}{Wert der Verlustfunktion nach jeder Epoche \ref {fig:DNNloss} bei Propagation des Trainings- und Validierungsdatensatzes und Verwirrungsmatrix \ref {fig:confmatDNN} bei Propagation des Testdatensatzes für die gewählte DNN Struktur . \relax }{figure.9}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Zusammenfassung und Schlussfolgerungen}{12}{section.4}}
 \bibstyle{h-physrev}
 \bibdata{mybib}
 \bibcite{OCT}{1}
 \bibcite{Dataset}{2}
 \bibcite{MNIST}{3}
 \bibcite{Adam}{4}
-\@writefile{toc}{\contentsline {section}{\numberline {A}Anhang}{15}{appendix.A}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Genauigkeit}}}{15}{subfigure.10.4}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Verlustfunktion}}}{15}{subfigure.10.4}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {Genauigkeit}}}{15}{subfigure.10.4}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {Verlustfunktion}}}{15}{subfigure.10.4}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(e)}{\ignorespaces {Normal}}}{15}{figure.10}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(f)}{\ignorespaces {Normal}}}{15}{figure.10}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(g)}{\ignorespaces {CNV}}}{15}{figure.10}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(h)}{\ignorespaces {CNV}}}{15}{figure.10}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(i)}{\ignorespaces {DME}}}{15}{figure.10}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(j)}{\ignorespaces {DME}}}{15}{figure.10}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(k)}{\ignorespaces {DRUSEN}}}{15}{figure.10}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(l)}{\ignorespaces {DRUSEN}}}{15}{figure.10}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Beispielbilder f\IeC {\"u}r jede der Klassen im $(50,\tmspace  +\thinmuskip {.1667em}100)$ Format, sowie die aus der Abrasterung durch $(2,\tmspace  +\thinmuskip {.1667em}4)$ Fenster erhaltene Verteilung der Mittelwerte.\relax }}{16}{figure.10}}
-\newlabel{fig:input}{{10}{16}{Beispielbilder für jede der Klassen im $(50,\,100)$ Format, sowie die aus der Abrasterung durch $(2,\,4)$ Fenster erhaltene Verteilung der Mittelwerte.\relax }{figure.10}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Anhang}{14}{appendix.A}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Genauigkeit}}}{14}{subfigure.10.4}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Verlustfunktion}}}{14}{subfigure.10.4}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {Genauigkeit}}}{14}{subfigure.10.4}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {Verlustfunktion}}}{14}{subfigure.10.4}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(e)}{\ignorespaces {Normal}}}{14}{figure.10}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(f)}{\ignorespaces {Normal}}}{14}{figure.10}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(g)}{\ignorespaces {CNV}}}{14}{figure.10}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(h)}{\ignorespaces {CNV}}}{14}{figure.10}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(i)}{\ignorespaces {DME}}}{14}{figure.10}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(j)}{\ignorespaces {DME}}}{14}{figure.10}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(k)}{\ignorespaces {DRUSEN}}}{14}{figure.10}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(l)}{\ignorespaces {DRUSEN}}}{14}{figure.10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Beispielbilder f\IeC {\"u}r jede der Klassen im $(50,\tmspace  +\thinmuskip {.1667em}100)$ Format, sowie die aus der Abrasterung durch $(2,\tmspace  +\thinmuskip {.1667em}4)$ Fenster erhaltene Verteilung der Mittelwerte.\relax }}{15}{figure.10}}
+\newlabel{fig:input}{{10}{15}{Beispielbilder für jede der Klassen im $(50,\,100)$ Format, sowie die aus der Abrasterung durch $(2,\,4)$ Fenster erhaltene Verteilung der Mittelwerte.\relax }{figure.10}{}}
 \global\@altsecnumformattrue
