@@ -1,6 +1,5 @@
-\section{Faltendes neuronales Netz zur Klassifizierung von OCT Aufnahmen der Retina}
-
-
+\section{Methoden zur Klassifizierung von OCT Aufnahmen der Retina}
+\subsection{Tiefes faltendes neuronales Netz (CNN)}
 Die Klassifizierung von OCT Aufnahmen der Retina stellt eine Bildklassifizierung dar. Für diese Aufgabenstellungen haben sich in der Praxis tiefe faltende neuronale Netze (CNN) bewährt. Das bekannteste Beispiel stellt das Erkennen von handgeschriebenen Zahlen dar, wobei eine nahezu menschliche Genauigkeit erreicht werden kann \cite{MNIST}. Daher wird auch im Rahmen dieser Projektarbeit auf diesen Typ der tiefen neuronalen Netze zurückgegriffen. \\
 Die Aufnahmen besitzen unterschiedliche Dimensionen und werden vor der Übergabe an das CNN auf eine einheitlich Größe von $(400\times 400)$ skaliert. Pixel, die bei diesem Vorgang zu der Aufnahme hinzugefügt werden, werden weiß eingefärbt. Zudem werden die Pixelwerte auf den Wertebereich $[0,\,1]$ eingeschränkt, indem der minimale Pixelwert einer Aufnahme auf 0 und der maximale Pixelwert auf 1 skaliert wird und die übrigen Pixel entsprechend angepasst werden. \\ 
 Demzufolge erhält das CNN in diesem Fall die Pixelwerte in Form einer 2 dimensionale Liste der Dimension $(400\times 400)$ als Eingangswerte. Das CNN besteht in der Regel hauptsächlich aus drei Bestandteilen, den sogenannten faltenden Lagen, welche im Folgenden als Conv2D Lagen bezeichnet werden, den Aggregationsschichten, die mehrere Neuronen einer Conv2D Lage zu einem Neuron zusammenfassen und welche im Folgenden als Pooling Lagen bezeichnet werden, und flache vollständig vernetzte dichte Lagen. In den faltenden Lagen wird die Dimension einer Faltungsmatrix (Kernel) definiert, welche die 2 dimensionale Neuronenstruktur in festgelegten Schrittweiten abrastert. Bei jede Schritt wird über eine diskrete Faltung wird die Aktivität eines jeden Neurons, die innerhalb des Kernels liegen berechnet. Die Addition der Aktivitäten der einzelnen Neuronen ergibt den Ausgangswert für jeden Schritt. Anschaulich bedeutet dies, dass eine Neuronenstruktur, die beispielsweise in einem $(400\times 400)$ Format vorliegt und mit einer $(2 \times 2)$ Faltungsmatrix in Schrittweiten der Form $(2,\,2)$ abgerastert wird, eine Ausgangsstruktur der Form $(200\times 200)$ generiert. Die Anzahl der Faltungsmatrizen, die zur Abrasterung benutzt werden, wird ebenfalls in jeder Conv2D Lage festgelegt.  \\
@@ -8,25 +7,36 @@ Für die Pooling Lage wird die Dimension eines Fensters festgelegt, welches die 
 Eine weitere Möglichkeit Übertraining zu vermeiden ist das Einbinden der sogenannten Dropout Lagen. Hierbei wird ein festgelegter Bruchteil an Neuronen einer Lage zufällig ausgewählt und in einem Trainingsschritt verworfen. \\
 Zumeist bestehen CNNs zunächst aus einer abwechselnden Struktur aus Conv2D Lagen und Pooling Lagen bis die Dimension der Neuronenstruktur hinreichend stark reduziert ist. Als nächsten Schritt, werden die Ausgangswerte der letzten Lage dieser Struktur in eine 1 dimensionale Liste abgespeichert, welche als Flatten Lage bezeichnet wird. Diese Ausgangswerte werden wiederum in vollständig vernetzte dichte Lagen übergeben. Für diese werden die Anzahl an Neuronen definiert, die sich am Ausgang der Lagen befinden. Vollständig vernetzt bedeutet hierbei, dass jedes Neuron einer dichten Lage mit allen Neuronen der vorherigen und nachfolgenden Lage vernetzt ist.  \\
 Die letzte Lage oder Ausgangslage des CNN besteht aus einer vollständig vernetzten dichte Lage, bei der die Anzahl an Neuronen der Anzahl an Klassen des Datensatzes entspricht. Das hier verwendete CNN besitzt demnach vier Neuronen in der Ausgangslage. \\
-Das CNN wird auf $70\,\%$ des Datensatzes trainiert, wobei der Lernerfolg durch die restlichen $30\,\%$ des Datensatzes validiert wird. Bei der Aufteilung wird darauf geachtet, dass die Zusammensetzung des Datensatzes in Tabelle \ref{tab:datacomp} in beiden Teildatensätze beibehalten wird. Die sogenannte Batch Größe legt fest, wie viele Aufnahmen in einem Trainingsschritt durch das CNN propagiert werden, wobei eine Epoche des Trainings dann erfolgt ist, wenn der komplette Trainingsdatensatz durch das CNN propagiert wurde. Das Training erfolgt im vorliegenden Fall über 40 Epochen mit einer Batch Größe von 100. \\ 
-Zur Klassifizierung des in diesem Projektbericht analysierten Datensatzes wird folgende Struktur als erste Referenzstruktur definiert:
-\begin{itemize}
- \item Eingangslage mit Eingangsdaten der Form $(400\times 400)$ 
- \item Conv2D Lage mit 64 Faltungsmatrizen der Dimension $(4 \times 4)$ und Schrittweite $(2,\,2)$ $\Rightarrow$ $(199 \times 199 \times 64)$ Ausgangsstruktur
- \item Pooling Lage mit $(3\times 3)$ Fenster $\Rightarrow$ $(66 \times 66 \times 64)$ Ausgangsstruktur
- \item Conv2D Lage mit 32 Faltungsmatrizen der Dimension $(4 \times 4)$ und Schrittweite $(2,\,2)$ $\Rightarrow$ $(32 \times 32 \times 32)$ Ausgangsstruktur
- \item Pooling Lage mit $(3\times 3)$ Fenster $\Rightarrow$ $(10 \times 10 \times 32)$ Ausgangsstruktur
- \item Dropout der Größe 0.25
- \item Dichte Lage mit 1000 Neuronen $\Rightarrow$ $(10 \times 10 \times 1000)$ Ausgangsstruktur
- \item Dichte Lage mit 250 Neuronen $\Rightarrow$ $(10 \times 10 \times 250)$ Ausgangsstruktur
- \item Flatten Lage mit 25000 Ausgangsneuronen
- \item Dichte Lage mit 100 Ausgangsneuronen
-  \item Dropout der Größe 0.5
- \item Dichte Lage mit 32 Ausgangsneuronen
- \item Dichte Ausgangslage mit 4 Ausgangsneuronen
-\end{itemize}
+\captionsetup[table]{name=Abbildung}
+\begin{table}[!t]
+\centering
+\footnotesize
+ \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+ \cline{1-2} \cline{4-7} \cline{9-11}
+ \multicolumn{2}{|c|}{Eingangslage} & \multirow{2}{*}{$\Rightarrow$} & \multicolumn{4}{c|}{Conv2D (64,$(2\times 2)$, $(2,\,2)$)}&\multirow{2}{*}{$\Rightarrow$} & \multicolumn{3}{c|}{Pooling $(2\times 2)$} \\
+ \cline{1-2} \cline{4-7} \cline{9-11}
+ \multicolumn{2}{|c|}{$(400 \times 400)$} & & \multicolumn{4}{c|}{$(199 \times 199 \times 64)$} & & \multicolumn{3}{c|}{$(66 \times 66 \times 64)$} \\
+ \cline{1-2} \cline{4-7} \cline{9-11}
+ \multicolumn{8}{c}{}& \multicolumn{3}{c}{$\Downarrow$} \\
+ \cline{1-1} \cline{3-3} \cline{5-6} \cline{8-11}
+ Dichte & \multirow{2}{*}{$\Leftarrow$} & Dropout & \multirow{2}{*}{$\Leftarrow$} & \multicolumn{2}{c|}{Pooling $(3\times 3)$} &\multirow{2}{*}{$\Leftarrow$}  & \multicolumn{4}{c|}{Conv2D (32,$(4\times 4)$, $(2,\,2)$)} \\
+ \cline{1-1} \cline{3-3} \cline{5-6} \cline{8-11}
+ $(10\times 10\times 1000)$ & & 0.25 & &  \multicolumn{2}{c|}{$(10\times 10 \times 32)$} & & \multicolumn{4}{c|}{$(32 \times 32 \times 32)$} \\
+ \cline{1-1} \cline{3-3} \cline{5-6} \cline{8-11}
+ \multicolumn{1}{c}{ $\Downarrow$}& \multicolumn{10}{c}{} \\
+  \cline{1-1} \cline{3-3} \cline{5-5} \cline{7-7} \cline{9-9} \cline{11-11}
+  Dichte  & \multirow{2}{*}{$\Rightarrow$} & Flatten & \multirow{2}{*}{$\Rightarrow$} & Dichte & \multirow{2}{*}{$\Rightarrow$} & Dropout & \multirow{2}{*}{$\Rightarrow$} & Dichte & \multirow{2}{*}{$\Rightarrow$} & Dichte \\
+  \cline{1-1} \cline{3-3} \cline{5-5} \cline{7-7} \cline{9-9} \cline{11-11}
+  $(10\times 10\times 250)$ & &  25000 & & 100 & &0.5 & &32& & 4 \\
+  \cline{1-1} \cline{3-3} \cline{5-5} \cline{7-7} \cline{9-9} \cline{11-11}
+ \end{tabular}
+ \caption{Referenzstruktur der CNN. Die Werte in den unteren Zeilen repräsentieren die Neuronenstruktur am Ausgang jeder Lage. Im Falle einer Dropout Lage stellt der Wert die festgelegte Rate dar. Für die Conv2D Lagen werden zudem die Anzahl an verwendeten Kernels sowie ihrer Dimension und die Schrittweite angegeben, für die Pooling Lagen, die definierte Dimension des verwendeten Fensters.}
+ \label{fig:refstrukt}
+\end{table}
+Das CNN wird auf $70\,\%$ des Datensatzes trainiert, wobei der Lernerfolg durch die restlichen $30\,\%$ des Datensatzes validiert wird. Bei der Aufteilung wird darauf geachtet, dass die Zusammensetzung des Datensatzes in Tabelle \ref{tab:datacomp} in beiden Teildatensätze beibehalten wird. Die sogenannte Batch Größe legt fest, wie viele Aufnahmen in einem Trainingsschritt durch das CNN propagiert werden, wobei eine Epoche des Trainings dann erfolgt ist, wenn der komplette Trainingsdatensatz durch das CNN propagiert wurde. Das Training erfolgt im vorliegenden Fall über 40 Epochen mit einer Batch Größe von 100. Zur Klassifizierung des in diesem Projektbericht analysierten Datensatzes wird die in Abbildung \ref{fig:refstrukt} verwendet. \\
 Als Aktivierungsfunktion der versteckten Lagen wird die elu (exponential linear unit) Funktion verwendet und als Aktivierungsfunktion der Ausgangslage wird die softmax Funtion verwendet. Zudem wird die kategorische Kreuzentropie als Verlustfunktion und der Adam Optimierer \cite{Adam} verwendet. Als Metrik wird die Genauigkeit verwendet, welcher sich durch das Verhältnis der Anzahl der richtig klassifizierten Aufnahmen und der Gesamtanzahl an Aufnahmen innerhalb eines Datensatzes berechnet. Der Lernerfolg wird durch das Aufzeichnen der Genauigkeit und dem Wert der Verlustfunktion nach jeder Epoche des Lernens auf dem Trainingsdatensatz ermittelt und durch die entsprechenden Werte, welche durch die Propagation des Validierungsdatensatzes durch die Netzstruktur ermittelt wird, validiert.\\
 Es ergeben sich die in Abbildung \ref{fig:refstruk} dargestellten Kurven für die Genauigkeiten und Verlustfunktion nach jeder Epoche. 
+\setcounter{figure}{2}
 \begin{figure}[!t]
  \centering
   \begin{subfigure}[Genauigkeit]{
@@ -44,10 +54,10 @@ Als Maß für den Lernerfolg dient zudem die Verwirrungsmatrix, welche die Proze
 \begin{figure}[!t]
  \centering
   \begin{subfigure}[Ungewichteter Datensatz]{
- \includegraphics[width=.45\linewidth]{fig/confusionmatrixequal.pdf}\label{fig:confmatun}}
+ \includegraphics[width=.35\linewidth]{fig/confusionmatrixequal.pdf}\label{fig:confmatun}}
   \end{subfigure}
  \begin{subfigure}[Gewichteter Datensatz]{
- \includegraphics[width=.45\linewidth]{fig/confusionmatrixnormal.pdf}\label{fig:confmatweight}}
+ \includegraphics[width=.35\linewidth]{fig/confusionmatrixnormal.pdf}\label{fig:confmatweight}}
   \end{subfigure}
   \caption{Verwirrungsmatrizen nach dem Training ohne Gewichtung des Datensatzes in Abbildung \ref{fig:confmatun} und mit verwendeter Gewichtung in Abbildung \ref{fig:confmatweight}.}
   \label{fig:confmat}
@@ -59,10 +69,10 @@ Zunächst wird getestet welche Auswirkung die Änderung der Aktivierungsfunktion
 \begin{figure}[!t]
  \centering
   \begin{subfigure}[relu als Aktivierungsfunktion]{
- \includegraphics[width=.45\linewidth]{fig/confusionmatrixrelu.pdf}\label{fig:confmatrelu}}
+ \includegraphics[width=.35\linewidth]{fig/confusionmatrixrelu.pdf}\label{fig:confmatrelu}}
   \end{subfigure}
  \begin{subfigure}[Veränderte Struktur des CNN]{
- \includegraphics[width=.45\linewidth]{fig/confusionmatrixsmaller.pdf}\label{fig:confmatsmaller}}
+ \includegraphics[width=.35\linewidth]{fig/confusionmatrixsmaller.pdf}\label{fig:confmatsmaller}}
   \end{subfigure}
   \caption{Verwirrungsmatrix bei Verwendung des gewichteten Datensatzes des CNN mit der Referenzstruktur mit relu als Aktivierungsfunktion \ref{fig:confmatrelu} und veränderter Struktur der dichten Lagen \ref{fig:confmatsmaller}.}
   \label{fig:confmatrelusmall}
@@ -103,3 +113,19 @@ Die Werte der Neuronen der Ausgangslage lassen sich als Wahrscheinlichkeiten fü
  Jedoch zeigt Abbildung \label{fig:probdrusen}, dass für die Klasse DRUSEN die Wahrscheinlichkeitsverteilung der zu DRUSEN zugehörigen Aufnahmen im Vergleich zu den Abbildungen \ref{fig:probnorm}-\ref{fig:probdme} einen kleineren Ausschlag bei dem Wert 1 und eine deutlich höher Flanke zu kleinen Werten aufweist, wodurch hier eine deutlich schwächere Diskriminierung vorhanden ist.  
  
 
+
+% \begin{itemize}
+%  \item Eingangslage mit Eingangsdaten der Form $(400\times 400)$ 
+%  \item Conv2D Lage mit 64 Faltungsmatrizen der Dimension $(4 \times 4)$ und Schrittweite $(2,\,2)$ $\Rightarrow$ $(199 \times 199 \times 64)$ Ausgangsstruktur
+%  \item Pooling Lage mit $(3\times 3)$ Fenster $\Rightarrow$ $(66 \times 66 \times 64)$ Ausgangsstruktur
+%  \item Conv2D Lage mit 32 Faltungsmatrizen der Dimension $(4 \times 4)$ und Schrittweite $(2,\,2)$ $\Rightarrow$ $(32 \times 32 \times 32)$ Ausgangsstruktur
+%  \item Pooling Lage mit $(3\times 3)$ Fenster $\Rightarrow$ $(10 \times 10 \times 32)$ Ausgangsstruktur
+%  \item Dropout der Größe 0.25
+%  \item Dichte Lage mit 1000 Neuronen $\Rightarrow$ $(10 \times 10 \times 1000)$ Ausgangsstruktur
+%  \item Dichte Lage mit 250 Neuronen $\Rightarrow$ $(10 \times 10 \times 250)$ Ausgangsstruktur
+%  \item Flatten Lage mit 25000 Ausgangsneuronen
+%  \item Dichte Lage mit 100 Ausgangsneuronen
+%   \item Dropout der Größe 0.5
+%  \item Dichte Lage mit 32 Ausgangsneuronen
+%  \item Dichte Ausgangslage mit 4 Ausgangsneuronen
+% \end{itemize}

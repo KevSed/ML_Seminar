@@ -1,22 +1,37 @@
-\section{Datensatz}
-\begin{table}[!h]
+\section{Analysierter Datensatz}
+% \begin{table}[!h]
+% \centering
+% \caption{Zusammensetzung des untersuchten Datensatzes aufgeteilt nach den im Datensatz vorhandenen Krankheiten, CNV, DME und DRUSEN, und Aufnahmen, die keine dieser Krankheiten aufweisen und mit NORMAL gekennzeichnet werden.}
+% \label{tab:datacomp}
+%  \begin{tabular}{|c|c|}
+%  \hline
+%  Erkrankung & Anzahl \\
+%  \hline
+%  NORMAL & 26315	\\
+%  CNV &  37205 \\
+%  DME &	11348	\\	
+%  DRUSEN & 8616	\\
+%  \hline
+%  Total	& 83484\\
+%  \hline
+%  \end{tabular}
+% \end{table}
+
+ \begin{table}[!h]
 \centering
 \caption{Zusammensetzung des untersuchten Datensatzes aufgeteilt nach den im Datensatz vorhandenen Krankheiten, CNV, DME und DRUSEN, und Aufnahmen, die keine dieser Krankheiten aufweisen und mit NORMAL gekennzeichnet werden.}
 \label{tab:datacomp}
- \begin{tabular}{|c|c|}
- \hline
- Erkrankung & Anzahl \\
- \hline
- NORMAL & 26315	\\
- CNV &  37205 \\
- DME &	11348	\\	
- DRUSEN & 8616	\\
- \hline
- Total	& 83484\\
- \hline
+\begin{tabular}{|c|cccc|c|} 
+\hline
+Erkrankung & NORMAL & CNV & DME & DRUSEN & Total \\
+\hline
+Anzahl &26315 & 37205 & 11348 & 8616 & 83484 \\
+\hline
  \end{tabular}
 \end{table}
-Der verwendete Datensatz besitzt die in Tabelle \ref{tab:datacomp} dargestellte Zusammensetzung. In Abbildung \ref{fig:example} finden sich Beispiel-Aufnahmen für jede der Klassen dar. Die Aufnahmen sind in Graustufen aufgezeichnet, wodurch die Pixelwerte den Wertebereich $[0,\,255]$ abdecken, wobei 0 schwarz und 255 Weiß entspricht. Die Erkrankung CNV ist in Abbildung \ref{fig:CNVexa} abgebildet und durch eine deutliche Schwellung der Retina zu erkennen. Abbildung \ref{fig:DMEexa} zeigt eine Retina, die von einem DME befallen ist, was deutlich an der ründlichen, schwarzen Färbung des Bildes in einem Bereich an dem im Vergleich zu \ref{fig:NORMexa} helle Färbungen erwartet werden. Auch die DRUSEN lassen sich in Abbildung \ref{fig:DRUSENexa} gut erkennen, da unterhalb der Netzhaut deutliche Ausbuchtungen zu sehen sind, die im Vergleich zu \ref{fig:NORMexa} nicht erwartet werden. Es sollte jedoch hier herausgestellt werden, dass die Aufnahmen in Abbildung \ref{fig:example} so gewählt werden, dass sie durch das bloße Auge bereits unterschieden werden können, um ideale Beispiele darzustellen. Die Aufnahmen lassen sich in vielen Fällen nicht per Auge in die Klassen einteilen, sodass für diese eine andere Methodik oder Erfahrung in der Auswertung dieser Aufnahmen notwendig ist.  
+
+
+Der verwendete Datensatz besitzt die in Tabelle \ref{tab:datacomp} dargestellte Zusammensetzung und in Abbildung \ref{fig:example} sind Beispielaufnahmen für jede der Klassen dargestellt. Die Aufnahmen sind in Graustufen aufgezeichnet, wodurch die Pixelwerte den Wertebereich $[0,\,255]$ abdecken, wobei schwarze Pixel dem Wert 0 und weiße Pixel dem Wert 255 entsprechen. Die Erkrankung CNV ist in Abbildung \ref{fig:CNVexa} abgebildet und durch eine deutliche Schwellung der Retina zu erkennen. Abbildung \ref{fig:DMEexa} zeigt eine Retina, die von einem DME befallen ist, was an der ründlichen, schwarzen Färbung, die einer Gefäßausbuchtung entspricht, innerhalb einer deutlichen Schwellung der Retina erkennbar ist. Auch DRUSEN sind in Abbildung \ref{fig:DRUSENexa} gut sichtbar, da unterhalb der Netzhaut deutliche Ausbuchtungen zu sehen sind, die im Vergleich zu der NORMAL Aufnahme in Abbildung \ref{fig:NORMexa} nicht erwartet werden. Es sollte jedoch hier herausgestellt werden, dass die Aufnahmen in Abbildung \ref{fig:example} ideale Beispiele darstellen, bei denen die Klassifizierung auch durch unerfahrene Betrachter vorgenommen werden kann. Bei vielen Aufnahmen ist dies jedoch nicht der Fall, sodass zur Klassifizierung eine andere Methodik oder Erfahrung in der Auswertung dieser Aufnahmen notwendig ist.  
 \begin{figure}[!b]
 \centering
  \begin{subfigure}[NORMAL\label{fig:NORMexa}]{
@@ -31,8 +46,39 @@ Der verwendete Datensatz besitzt die in Tabelle \ref{tab:datacomp} dargestellte 
  \begin{subfigure}[DRUSEN \label{fig:DRUSENexa}]{ 
    \includegraphics[width=.20\linewidth]{fig/DRUSEN.jpeg}}
  \end{subfigure}
- \caption{Beispiel Aufnahmen der unterschiedlichen Klassen der zu untersuchenden Aufnahmen.}
+ \caption{OCT Aufnahmen der Retina, die beispielhaft eine Aufnahme jeder untersuchten Klasse im Datensatz zeigen. Dabei zeigt Abbildung \ref{fig:NORMexa} eine OCT Aufnahme der Klasse NORMAL, die von keiner der Krankheiten, CNV, DME und DRUSEN, aufweist, welche in den Abbildungen \ref{fig:CNVexa}, \ref{fig:DMEexa} respektive \ref{fig:DRUSENexa} dargestellt sind.}
  \label{fig:example}
 \end{figure}
-Da die Aufnahmen unterschiedliche Größen aufweisen werden diese beim Einlesen auf die Größe $(400,\,400)$ dimensioniert. Werden dabei zusätzliche Pixel erzeugt, so werden diese weiß gesetzt. \\
-Der Datensatz wird in zwei Teile aufgeteilt, $70\,\%$ formen den Datensatz, welcher im Folgenden als Trainingsdatensatz bezeichnet wird, auf dem das Training stattfindet und $30\,\%$ den Validierungsdatensatz auf dem der Trainingserfolg validiert wird. 
+\setcounter{subfigure}{0}
+
+% \begin{table}
+% \begin{tabular}{|c|c|c|c|c|}
+%  \cline{1-1} \cline{3-3} \cline{5-5}
+%   Conv2D (64, $(2\times 2)$, (2,\,2))& \multirow{2}{*}{$\Rightarrow$} & Pooling ($(3\times 3)$) & \multirow{2}{*}{$\Rightarrow$} & Conv2D (32, $(2\times 2)$, (2,\,2))\\
+% \cline{1-1} \cline{3-3} \cline{5-5}
+%  $(199\times 199 \times 64)$ & & $(66\times 66 \times 64)$ & & $(32\times 32 \times 32)$\\
+% \cline{1-1} \cline{3-3} \cline{5-5}
+%  & & & & $\Downarrow$ \\
+%  & & & \multirow{2}{*}{$\Leftarrow$} & Pooling ($(3\times 3)$) \\
+% \end{tabular}
+% \end{table}
+
+\begin{table}
+ \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+ \cline{1-2} \cline{4-7} \cline{9-11}
+ \multicolumn{2}{|c|}{Eingangslage} & \multirow{2}{*}{$\Rightarrow$} & \multicolumn{4}{c|}{Conv2D (64,$(2\times 2)$, $(2,\,2)$)}&\multirow{2}{*}{$\Rightarrow$} & \multicolumn{3}{c|}{Pooling $(2,\,2)$} \\
+ \cline{1-2} \cline{4-7} \cline{9-11}
+ \multicolumn{2}{|c|}{$(400 \times 400)$} & & \multicolumn{4}{c|}{$(199 \times 199 \times 64)$} & & \multicolumn{3}{c|}{$(66 \times 66 \times 64)$} \\
+ \cline{1-2} \cline{4-7} \cline{9-11}
+ \multicolumn{8}{c}{}& \multicolumn{3}{c}{$\Downarrow$} \\
+ Dichte & \multirow{2}{*}{$\Leftarrow$} & Dropout
+  \cline{1-1} \cline{3-3} \cline{5-5} \cline{7-7} \cline{9-9} \cline{11-11}
+  Dichte  & \multirow{2}{*}{$\Rightarrow$} & Flatten & \multirow{2}{*}{$\Rightarrow$} & Dichte & \multirow{2}{*}{$\Rightarrow$} & Dropout & \multirow{2}{*}{$\Rightarrow$} & Dichte & \multirow{2}{*}{$\Rightarrow$} & Dichte \\
+  \cline{1-1} \cline{3-3} \cline{5-5} \cline{7-7} \cline{9-9} \cline{11-11}
+  $(10\times 10\times 250)$ & &  25000 & & 100 & &0.5 & &32& & 4 \\
+  \cline{1-1} \cline{3-3} \cline{5-5} \cline{7-7} \cline{9-9} \cline{11-11}
+ \end{tabular}
+\end{table}
+
+
+

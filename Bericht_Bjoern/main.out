@@ -1,6 +1,7 @@
 \BOOKMARK [1][-]{section.1}{Einleitung}{}% 1
-\BOOKMARK [1][-]{section.2}{Datensatz}{}% 2
-\BOOKMARK [1][-]{section.3}{Faltendes neuronales Netz zur Klassifizierung von OCT Aufnahmen der Retina}{}% 3
-\BOOKMARK [1][-]{section.4}{Flaches tiefes neuronales Netz zur Klassifizierung von OCT Aufnahmen der Retina}{}% 4
-\BOOKMARK [1][-]{section.5}{Zusammenfassung und Schlussfolgerungen}{}% 5
-\BOOKMARK [1][-]{appendix.A}{Anhang}{}% 6
+\BOOKMARK [1][-]{section.2}{Analysierter Datensatz}{}% 2
+\BOOKMARK [1][-]{section.3}{Methoden zur Klassifizierung von OCT Aufnahmen der Retina}{}% 3
+\BOOKMARK [2][-]{subsection.3.1}{Tiefes faltendes neuronales Netz \(CNN\)}{section.3}% 4
+\BOOKMARK [2][-]{subsection.3.2}{Flaches tiefes neuronales Netz \(DNN\)}{section.3}% 5
+\BOOKMARK [1][-]{section.4}{Zusammenfassung und Schlussfolgerungen}{}% 6
+\BOOKMARK [1][-]{appendix.A}{Anhang}{}% 7
