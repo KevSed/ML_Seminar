@@ -14,7 +14,6 @@ oder direkt von der [Quelle](https://data.mendeley.com/datasets/rscbjbr9sj/2/fil
 $ wget https://data.mendeley.com/datasets/rscbjbr9sj/2/files/9e8f7acf-7d3a-487f-8eb5-0bd3255b9685/OCT2017.tar.gz?dl=1
 ```
 Um daraus ein HDF5 file zu generieren lautet die Syntax:
-Die Syntax lautet:
 ```
 $ python load_data.py input_file output_file
 ```
@@ -23,3 +22,5 @@ Die so generierten Daten können den network Skripten zur Verfügung gestellt we
 Nach dem Trainieren werden die Modelle, sowie die verwendeten Gewichte und der Validierungsdatensatz gespeichert. Die dazu verwende Funktion ist in dem file **save_all.py** definiert.
 
 Um performance plots und andere Statiskien zu generieren, existieren mehrere Funktionen. Diese sind in den files **evaluate.py** und **plot_history.py** definiert und weiter beschrieben. Sie werden durch **plot_statistics.py** ausgeführt.
+
+Die **Alternativmethode** ist im Ordner Alternative implementiert. **[BESCHREIBUNG]**
