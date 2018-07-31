@@ -26,3 +26,15 @@ Um performance plots und andere Statiskien zu generieren, existieren mehrere Fun
 Die **Alternativmethode** ist im Ordner Alternative implementiert. Das Skript **dataprep.py** enthält die zur Erzeugung der zum Training benötigten Bilder notwendigen Funktionen.
 In dem file **grid.py** ist eine zur grid search zu verwendenden Klasse definiert. Das skript **runAnalysis.py** führt alle notwendigen Schritte bis zum Abschluss der grid search durch.
 Im file **performance.py** sind Funktionen zum Erstellen von __performance statistics__ enthalten. Eine Verwendung ist ausführlich im file **runAnalysis.py** erklärt.
+
+## Testing
+
+Für sowohl das CNN als auch die Alternativmethode liegen Testskripte vor. Diese laden das trainierte Modell und einen Testdatensatz, wenden dieses an und erstellen performance plots.
+Für das CNN ist dies das Skript **apply_model_to_test_sample.py**. Es lässt sich ausführen über:
+```
+$ python apply_model_to_test_sample.py
+```
+Für die Alternativmethode liegt dazu das Skript **test.py** im Ordner __Alternative__. Es lässt sich rufen über:
+```
+$ python test.py
+```
