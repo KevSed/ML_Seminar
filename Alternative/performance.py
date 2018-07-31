@@ -42,7 +42,7 @@ def plot_confusion_matrix(cm, d,outfile, classes,
     plt.tight_layout()
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
-    plt.savefig(outfile+'confusion_matrix_'+str(d)+'.pdf')
+    plt.savefig(outfile+'confusionmatrix'+str(d)+'.pdf')
     plt.close()
     return 0.25*sum
 
@@ -71,7 +71,7 @@ def evaluate(X_test, Y_test, weights_Test,model,d,lab, outfile):
     plt.legend([name[lab], not_name[lab]], loc='best')
     plt.xlabel('Probability of being '+name[lab])
     plt.ylabel('Number of entries')
-    plt.savefig(outfile+name[lab]+'_or_not_log_'+str(d)+'.pdf')
+    plt.savefig(outfile+name[lab]+'ornotlog'+str(d)+'.pdf')
     plt.close()
 
     plt.hist(Y_pred_prob[Y_true == label], alpha=0.5,weights=norm_fact, color='red',  bins=20,range=(0., 1.), log = False)
@@ -79,7 +79,7 @@ def evaluate(X_test, Y_test, weights_Test,model,d,lab, outfile):
     plt.legend([name[lab], not_name[lab]], loc='best')
     plt.xlabel('Probability of being '+name[lab])
     plt.ylabel('Number of entries')
-    plt.savefig(outfile+name[lab]+'_or_not_'+str(d)+'.pdf')
+    plt.savefig(outfile+name[lab]+'ornot'+str(d)+'.pdf')
     plt.close()
 
     # compute the confusion matrix
@@ -90,10 +90,11 @@ def evaluate(X_test, Y_test, weights_Test,model,d,lab, outfile):
     corr_acc = plot_confusion_matrix(confusion_mtx, d,outfile, classes = range(4))
     return corr_acc
 
-def model_selector(infiles, batch_size, tested_models, acc_thr, ovt_thr, loss_thr):
+def model_selector(infiles, batch_size, tested_models, acc_thr, loss_thr, outfile):
     #Path = '/home/bjoern/Studium/ML/GridSearch/Files/'
     Path = infiles
     surviving = []
+    matplotlib.rcParams.update({'font.size': 14})
     for i in range(tested_models*4):
             for k in range(len(batch_size)):
                 s = i*len(batch_size)+k
@@ -105,13 +106,28 @@ def model_selector(infiles, batch_size, tested_models, acc_thr, ovt_thr, loss_th
                 if(val_acc < acc_thr):
                     print('Model '+str(int(s/6))+' fails accury selection for batch size ' + str(batch_size[k]))
                     continue
-                #if(val_acc < acc-ovt_thr):
-                #    print('Model '+str(int(s/6))+' fails overtraining selection for batch size ' + str(batch_size[k]))
-                #    continue
                 if(loss_end > loss_thr*loss_start):
                     print('Model '+str(int(s/6))+' fails loss selection for batch size ' + str(batch_size[k]))
                     continue
                 surviving.append(s)
+                plt.figure()
+                plt.xlabel('Epochs')
+                plt.ylabel(r'Loss / $10^{4}$')
+                plt.plot(history['loss']*np.ones(150)*10**4)
+                plt.plot(history['val_loss']*np.ones(150)*10**4)
+                plt.legend(['Training', 'Validation'],loc='best')
+                plt.savefig(outfile+str(s)+'.pdf')
+                plt.close()
+
+                plt.figure()
+                plt.xlabel('Epochs')
+                plt.ylabel('Accuracy')
+                plt.plot(history['acc'])
+                plt.plot(history['val_acc'])
+                plt.legend(['Training', 'Validation'], loc='best')
+                plt.savefig(outfile+str(s)+'.pdf')
+                plt.close()
+
     return surviving
 
 

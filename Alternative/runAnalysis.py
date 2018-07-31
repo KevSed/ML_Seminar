@@ -25,13 +25,13 @@ This is the file where you should put everything what you want to run.
       are resized to (50,100) shape.
     - prep_eval(file, outfile) reads in file obtained by get_data(Folder,File)
       and performs the image scan. The image scan calculates the means of all
-      the pixels within a defined window. By default this is set to (2,4) and
-      are taken as features of scanned imagesself.
+      pixels within a defined window. By default this window has the dimension (2,4).
       Furthermore, it performs train_test and train_val splits and saves all
-      sets to outfile. To take the different class sizes into account weights
+      datasets to outfile. To take the different class sizes into account weights
       are calculated and saved in outfile as well.
 * grid.py: Contains the class grid. A class member has to be initialized with a
-  dataset obtained from prep_eval. By default it contains a string in Path_base containing the
+  dataset obtained from prep_eval containing training and validation datasets and
+  their corresponding weightsself. By default it contains a string in Path_base containing the
   path to the folder where model structures to test are saved and a string in Out_file
   containing the path to the folder where fitted model structures, histories and
   trained weights are saved and have to be set correctly by the user before calling a method
@@ -41,70 +41,84 @@ This is the file where you should put everything what you want to run.
       file. The user has to assign a number to this model which is saved in the
       suffix of this file
     - fit_model(self, number, outnumber, outfile): Fits model corresponding to number and
-      saves model, trained weights and history of the training. The user has to
-      assign a outnumber to this run. Loss and accuravy histories are saved in outfile.
+      saves model and history of the training in Out_file as .json file and trained weights as .hdf5 file.
+      The user has to assign a outnumber to this run. Loss and accuravy histories are saved in outfile.
 * performance.py: Contains methods to evaluate the performance of models and
   to select models from grid search.
-    - model_evaluator(mod, infiles, outfiles, lab): receives number corresponding to
-      fitted model and the folder containing the corresponding json file in infiles.
+    - model_evaluator(mod, infiles, outfiles, lab, unblind=False): receives number corresponding to
+      fitted model and the folder containing the corresponding json file for the model structure
+      and hdf5 files for trained weights in infiles.
       Confusion matrix is plotted, classification_report is printed and the
-      NN output for a given label. This label is defined by lab. Outputs are saved to
-      outfiles.
-    - model_selector(infiles, batch_size, tested_models, acc_thr, ovt_thr, loss_thr)
-      selects models tested in grid search passing the three step selection.
-      A model has to pass a minimum validation accuracy threshold, an overtraining threshold
-      defined by the train accuracy - validation accuracy and a loss threshold defined
-      by the loss function after all epochs being smaller than loss_thr*loss function
-      after 1 epoch. It returns an array with all numbers corresponding to model
+      NN output for a given label correspondig to a analyzed class.
+      This label is defined by lab. Outputs are saved to outfiles.
+      If unblind is set to True the Performance will be evluated on the test dataset,
+      otherwise on the validation dataset
+    - model_selector(infiles, batch_size, tested_models, acc_thr,  loss_thr, outfile)
+      selects models tested in grid search passing the two step selection.
+      A model has to pass a minimum validation accuracy threshold, defined by the train accuracy - validation accuracy,
+      and a loss threshold defined by the loss function after all epochs being smaller than loss_thr*loss function
+      after 1 epoch. It returns an array with all numbers corresponding to models
       passing the selection. tested_models correspond to the tested number of
-      layer structures
+      layer structures (This is very hard coded, sorry for that)
     - model_plotter(infiles,outfiles, batch_size, tested_models) plots for all
       tested layer structures the validation accuracy and loss after all epochs
-      as function of the tested batch sizes given in batch_size and tested
+      as function of the tested batch size given in batch_size and tested
       acitvation functions for the hidden layers and output layer.
       Outputs are saved to out files.
+* A complete example of the analysis is given below. Note that it is necessary to download the Dataset first:
+  https://www.kaggle.com/paultimothymooney/kermany2018. Example_plots shows images after resizing and input distributions for the DNN
+
 
 """
 
-#get_data('OCT2017/train/', 'train.hdf5')
+example_plots()
 
-#prep_eval('train.hdf5', 'evaluate.hdf5')
+get_data('OCT2017/train/', 'train.hdf5')
 
-#dataset = h5py.File('evaluate.hdf5', mode='r')
+prep_eval('train.hdf5', 'evaluate.hdf5')
 
-"""
+dataset = h5py.File('evaluate.hdf5', mode='r')
+
+
 X = grid(dataset)
-X.batch_size = 50
+
+# Tested models
+
+dense_layer =[[1024,512,128,64,32], [1024, 512,256,128,64,32,16], [512,256,128,64,32,16], [1024, 256, 64, 16], [512, 128, 32]]
+activation = ['relu', 'elu']
+out_activation = ['softmax', 'sigmoid']
+dropouts = [[0.5, 0.4,0.4, 0.3, 0.2], [0.5, 0.4, 0.4, 0.4, 0.2, 0.2, 0.1], [0.4, 0.4, 0.3, 0.3, 0.2, 0.1], [0.6, 0.4, 0.2, 0.1], [0.5, 0.3, 0.1]]
 
 
-dense_layer =[[1024,512,128,64,32]]
-activation = ['relu']
-out_activation = ['sigmoid']
-dropouts = [[0.5, 0.4,0.4, 0.3, 0.2]]
-
-
-
+tested_models = []
 number = 0
 for i in range(len(dense_layer)):
     for acti in activation:
         for out_acti in out_activation:
             X.make_model(dense_layer[i], acti, dropouts[i], out_acti, number)
+            tested_models.append(number)
             number += 1
+batch_size = [50, 64, 128, 256, 512]
 
-X.fit_model(0, 1)
-"""
+for i in tested_models:
+    for batch in batch_size:
+        X.batch_size(batch)
+        X.fit_model(i, i*len(batch_size)+batch, '/home/bjoern/Studium/ML/GridSearch/Output/')
 
-print(model_selector('/home/bjoern/Studium/ML/GridSearch/Files/', [50,64,100,128,256,512], 5, 0.73, 0.05, 0.95))
+
+
+
+models = model_selector('/home/bjoern/Studium/ML/GridSearch/Files/', [50,64,100,128,256,512], 5, 0.73, 0.95)
 
 model_plotter('/home/bjoern/Studium/ML/GridSearch/Files/', 'GridSearch/ModelEval/',[50,64,100,128,256,512],5 )
-model_evaluator(6, '/home/bjoern/Studium/ML/GridSearch/Files/','GridSearch/Performance/',0, unblind=False )
-model_evaluator(6, '/home/bjoern/Studium/ML/GridSearch/Files/','GridSearch/PerformanceTest/',0, unblind=True )
+print(models)
+accuracy = []
+for i in models:
+    accuracy.append(model_evaluator(i, '/home/bjoern/Studium/ML/GridSearch/Files/','GridSearch/Performance/',0, unblind=False ))
+#    accuracy.append(model_evaluator(i, '/home/bjoern/Studium/ML/GridSearch/Files/','GridSearch/Performance/',1, unblind=False ))
+#    accuracy.append(model_evaluator(i, '/home/bjoern/Studium/ML/GridSearch/Files/','GridSearch/Performance/',2, unblind=False ))
+#    accuracy.append(model_evaluator(i, '/home/bjoern/Studium/ML/GridSearch/Files/','GridSearch/Performance/',3, unblind=False ))
+# This is the model which wins the test
+model_evaluator(6, '/home/bjoern/Studium/ML/GridSearch/Files/','GridSearch/PerformanceTest/',0, unblind=False )
 
-
-"""
-dense_layer =[[1024,512,128,64,32], [1024, 512,256,128,64,32,16], [512,256,128,64,32,16], [1024, 256, 64, 16], [512, 128, 32]]
-activation = ['relu', 'elu']
-out_activation = ['softmax', 'sigmoid']
-dropouts = [[0.5, 0.4,0.4, 0.3, 0.2], [0.5, 0.4, 0.4, 0.4, 0.2, 0.2, 0.1], [0.4, 0.4, 0.3, 0.3, 0.2, 0.1], [0.6, 0.4, 0.2, 0.1], [0.5, 0.3, 0.1]]
-input_dim = 625
-"""
+print(accuracy)
