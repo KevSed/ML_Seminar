@@ -23,4 +23,6 @@ Nach dem Trainieren werden die Modelle, sowie die verwendeten Gewichte und der V
 
 Um performance plots und andere Statiskien zu generieren, existieren mehrere Funktionen. Diese sind in den files **evaluate.py** und **plot_history.py** definiert und weiter beschrieben. Sie werden durch **plot_statistics.py** ausgeführt.
 
-Die **Alternativmethode** ist im Ordner Alternative implementiert. **[BESCHREIBUNG]**
+Die **Alternativmethode** ist im Ordner Alternative implementiert. Das Skript **dataprep.py** enthält die zur Erzeugung der zum Training benötigten Bilder notwendigen Funktionen.
+In dem file **grid.py** ist eine zur grid search zu verwendenden Klasse definiert. Das skript **runAnalysis.py** führt alle notwendigen Schritte bis zum Abschluss der grid search durch.
+Im file **performance.py** sind Funktionen zum Erstellen von __performance statistics__ enthalten. Eine Verwendung ist ausführlich im file **runAnalysis.py** erklärt.
