@@ -10,7 +10,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.1}Tiefes faltendes neuronales Netz (CNN)}{3}{subsection.3.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.2}Flaches tiefes neuronales Netz (DNN)}{9}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.2}Tiefes flaches neuronales Netz (DNN)}{9}{subsection.3.2}
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4}Zusammenfassung und Schlussfolgerungen}{12}{section.4}
 \defcounter {refsection}{0}\relax 
