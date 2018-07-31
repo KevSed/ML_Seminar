@@ -10,7 +10,7 @@
 \clearpairofpagestyles
 %\automark{subsection}
 \ihead{\headmark}
-\chead{Björn Wendland, Rigo Bause}
+%\chead{Björn Wendland}
 \ohead{\pagemark}
 %\ifoot{\pagemark}
 
@@ -33,44 +33,53 @@
 
 
 %Title, author, date 
-\title{\includegraphics[scale=0.8]{tud-logo.jpg} \\ \vspace*{1cm} Maschinelles Lernen für Physiker*innen \\ -Master Physik- \\ \vspace*{1cm} 
-Klassifizierung von Retina Aufnahmen mittels Optischer Kohärenztomographie \vspace*{1.5cm} }
+\title{\vspace{-0.7cm}\includegraphics[scale=0.8]{tud-logo.jpg} \\ \vspace*{1cm} Maschinelles Lernen für Physiker*innen \\ -Master Physik- \\ \vspace*{1cm} 
+Klassifizierung durch Methoden des Maschinellen Lernens von Erkrankung der Retina mittels Aufnahmen der Optischen Kohärenztomographie  \vspace*{1cm} }
 
 
-\author{Kevin Sedlaczeck \\ \href{mailto:kevin.sedlaczeck@tu-dortmund.de}{kevin.sedlaczeck@tu-dortmund.de} \and 
+\author{Kevin Sedlaczek \\ \href{mailto:kevin.sedlaczek@tu-dortmund.de}{kevin.sedlaczek@tu-dortmund.de} \and 
 	Björn Wendland \\ \href{mailto:bjoern.wendland@tu-dortmund.de}{bjoern.wendland@tu-dortmund.de}}
 
-\date{ \vspace*{1.5cm} 
+\date{ \vspace*{0.5cm} 
 \begin{align*}
-\text{Projektbericht vorgelegt von Björn Wendland} \\
-&\text{Datum der Abgabe:}  \quad \todayIV
+& \text{Projektbericht vorgelegt von Björn Wendland} \\
+& \text{Datum der Abgabe:}  \quad \todayIV
 \end{align*}
 }
 
 
 \begin{document}
-
+ \singlespacing
 %	Titlepage	
 	\maketitle
 	\vfill
 	{\centering \Large{TU Dortmund - Fakultät Physik} \par}
 	\thispagestyle{empty} 
-
+\onehalfspacing
 \clearpage 
-
-%	Kapitel einfügen	
+\tableofcontents
+\thispagestyle{empty}
+\clearpage
+%	Kapitel einfügen
+\setcounter{page}{1}
 \input{Kapitel/einleitung}
-	
-
-
+%\clearpage
+\input{Kapitel/dataset}
+\clearpage
+\input{Kapitel/conv}	
+%\clearpage
+\input{Kapitel/alternative}	
+\clearpage
+\input{Kapitel/Zusammenfassung}	
+\clearpage
 %	Literaturverzeichnis	%
-\bibliographystyle{h-physrev}	
-\bibliography{mybib}
-
-%	Anhang	%
+% \bibliographystyle{h-physrev}	
+% \bibliography{mybib}
+\printbibliography
+%Anhang	%
 %\clearpage	
-%\appendix
-%\input{Kapitel/anhang}
+\appendix
+\input{Kapitel/anhang}
 
 \clearpage
 

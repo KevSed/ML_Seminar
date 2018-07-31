@@ -1,46 +1,15 @@
-This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
-Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
-The top-level auxiliary file: main.aux
-The style file: h-physrev.bst
-Database file #1: mybib.bib
-You've used 4 entries,
-            1946 wiz_defined-function locations,
-            622 strings with 5168 characters,
-and the built_in function-call counts, 611 in all, are:
-= -- 39
-> -- 34
-< -- 0
-+ -- 11
-- -- 7
-* -- 45
-:= -- 87
-add.period$ -- 4
-call.type$ -- 4
-change.case$ -- 1
-chr.to.int$ -- 0
-cite$ -- 4
-duplicate$ -- 34
-empty$ -- 67
-format.name$ -- 10
-if$ -- 137
-int.to.chr$ -- 0
-int.to.str$ -- 4
-missing$ -- 4
-newline$ -- 20
-num.names$ -- 3
-pop$ -- 19
-preamble$ -- 1
-purify$ -- 0
-quote$ -- 0
-skip$ -- 24
-stack$ -- 0
-substring$ -- 0
-swap$ -- 10
-text.length$ -- 0
-text.prefix$ -- 0
-top$ -- 0
-type$ -- 0
-warning$ -- 0
-while$ -- 3
-width$ -- 5
-write$ -- 34
+[0] Config.pm:340> INFO - This is Biber 2.4
+[0] Config.pm:343> INFO - Logfile is 'main.blg'
+[63] biber:287> INFO - === Di Jul 31, 2018, 10:53:12
+[167] Biber.pm:348> INFO - Reading 'main.bcf'
+[341] Biber.pm:742> INFO - Found 4 citekeys in bib section 0
+[352] Biber.pm:3151> INFO - Processing section 0
+[394] Biber.pm:3308> INFO - Looking for bibtex format file 'references.bib' for section 0
+[400] bibtex.pm:1113> INFO - Decoding LaTeX character macros into UTF-8
+[405] bibtex.pm:974> INFO - Found BibTeX data source 'references.bib'
+[508] UCollate.pm:65> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
+[509] UCollate.pm:65> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[509] Biber.pm:3028> INFO - Sorting list 'none/global' of type 'entry' with scheme 'none' and locale 'de-DE'
+[509] Biber.pm:3032> INFO - No sort tailoring available for locale 'de-DE'
+[513] bbl.pm:519> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[531] bbl.pm:615> INFO - Output to main.bbl

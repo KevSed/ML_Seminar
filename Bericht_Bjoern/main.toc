@@ -1,9 +1,21 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\defcounter {refsection}{0}\relax 
 \select@language {ngerman}
-\select@language {ngerman}
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {1}Einleitung}{1}{section.1}
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {2}Analysierter Datensatz}{2}{section.2}
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {3}Methoden zur Klassifizierung von OCT Aufnahmen der Retina}{3}{section.3}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.1}Tiefes faltendes neuronales Netz (CNN)}{3}{subsection.3.1}
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.2}Flaches tiefes neuronales Netz (DNN)}{9}{subsection.3.2}
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4}Zusammenfassung und Schlussfolgerungen}{12}{section.4}
-\contentsline {section}{\numberline {A}Anhang}{14}{appendix.A}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {5}Literatur}{13}{section.5}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {A}Zusatzliche Abbildungen und Ergebnisse bei Verwendung des CNN}{14}{appendix.A}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {B}Zusatzliche Abbildungen und Ergebnisse zur Optimierungsstudie des DNN}{20}{appendix.B}

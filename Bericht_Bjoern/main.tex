@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper,headsepline]{scrartcl}
+\documentclass[12pt,a4paper,headsepline,bibtotocnumbered]{scrartcl}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %	packages einbinden aus packages.tex  %
@@ -34,7 +34,7 @@
 
 %Title, author, date 
 \title{\vspace{-0.7cm}\includegraphics[scale=0.8]{tud-logo.jpg} \\ \vspace*{1cm} Maschinelles Lernen für Physiker*innen \\ -Master Physik- \\ \vspace*{1cm} 
-Klassifizierung durch Methoden des Maschinellen Lernens von Erkrankung der Retina mittels Aufnahmen der Optischen Kohärenztomographie  \vspace*{1cm} }
+Klassifizierung durch Methoden des Maschinellen Lernens von Erkrankungen der Retina mittels Aufnahmen der Optischen Kohärenztomographie  \vspace*{1cm} }
 
 
 \author{Kevin Sedlaczek \\ \href{mailto:kevin.sedlaczek@tu-dortmund.de}{kevin.sedlaczek@tu-dortmund.de} \and 
@@ -73,9 +73,9 @@ Klassifizierung durch Methoden des Maschinellen Lernens von Erkrankung der Retin
 \input{Kapitel/Zusammenfassung}	
 \clearpage
 %	Literaturverzeichnis	%
-\bibliographystyle{h-physrev}	
-\bibliography{mybib}
-
+% \bibliographystyle{h-physrev}	
+% \bibliography{mybib}
+\printbibliography
 %Anhang	%
 \clearpage	
 \appendix
