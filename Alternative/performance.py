@@ -116,7 +116,7 @@ def model_selector(infiles, batch_size, tested_models, acc_thr, loss_thr, outfil
                 plt.plot(history['loss']*np.ones(150)*10**4)
                 plt.plot(history['val_loss']*np.ones(150)*10**4)
                 plt.legend(['Training', 'Validation'],loc='best')
-                plt.savefig(outfile+str(s)+'.pdf')
+                plt.savefig(outfile+'losshistory'+str(s)+'.pdf')
                 plt.close()
 
                 plt.figure()
@@ -125,7 +125,7 @@ def model_selector(infiles, batch_size, tested_models, acc_thr, loss_thr, outfil
                 plt.plot(history['acc'])
                 plt.plot(history['val_acc'])
                 plt.legend(['Training', 'Validation'], loc='best')
-                plt.savefig(outfile+str(s)+'.pdf')
+                plt.savefig(outfile+'accuracyhistory'+str(s)+'.pdf')
                 plt.close()
 
     return surviving

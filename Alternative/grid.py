@@ -43,11 +43,11 @@ class grid:
         self.X_Train = np.asarray(dictio['X_Train'])
         self.Y_Train = np.asarray(dictio['Y_Train'])
         self.weights_Train = np.asarray(dictio['weights_Train'])
-        self.Path_base = '/home/bjoern/Studium/ML/GridSearch/ModelBase/'
+        self.Path_base = '/home/bjoern/Studium/ML/ML_Seminar/Alternative/TestOutput/ModelBase/'
         self.batch_size = 128
-        print('Base models are saved to and read from /home/bjoern/Studium/ML/GridSearch/ModelBase/. Define a new directory via self.Path_Base if you want to save it elsewhere!')
-        self.Out_file = '/home/bjoern/Studium/ML/GridSearch/Files/'
-        print('Histories, trained weights and models are saved to and read from /home/bjoern/Studium/ML/GridSearch/Files/. Define a new directory via self.Out_Base if you want to save it elsewhere!')
+        print('Base models are saved to and read from /home/bjoern/Studium/ML/ML_Seminar/Alternative/TestOutput/ModelBase/. Define a new directory via self.Path_Base if you want to save it elsewhere!')
+        self.Out_file = '/home/bjoern/Studium/ML/ML_Seminar/Alternative/TestOutput/Files/'
+        print('Histories, trained weights and models are saved to and read from /home/bjoern/Studium/ML/ML_Seminar/Alternative/TestOutput/ModelBase/. Define a new directory via self.Out_Base if you want to save it elsewhere!')
 
     def make_model(self, dense_layer, activation, dropouts, out_activation, number):
         np.random.seed(1338)
@@ -55,7 +55,7 @@ class grid:
         model = Sequential()
         for i in range(len(dense_layer)):
             if(i == 0):
-                model.add(Dense(dense_layer[i],activation=activation, input_dim=len(self.X_Train)))
+                model.add(Dense(dense_layer[i],activation=activation, input_dim=len(self.X_Train[0])))
                 model.add(Dropout(dropouts[i]))
                 continue
             model.add(Dense(dense_layer[i],activation=activation))
@@ -102,7 +102,7 @@ class grid:
         data['val_loss'] = history.history['val_loss']
         data['acc'] = history.history['acc']
         data['val_acc'] = history.history['val_acc']
-        hdf5_file = h5py.File(self.Out_file+'hist_'+str(number)+'.hdf5', mode='w')
+        hdf5_file = h5py.File(self.Out_file+'hist_'+str(outnumber)+'.hdf5', mode='w')
         hdf5_file.create_dataset("loss", data=[data['loss'][i] for i in range(len(data['loss']))])
         hdf5_file.create_dataset("val_loss", data=[data['val_loss'][i] for i in range(len(data['val_loss']))])
         hdf5_file.create_dataset("acc", data=[data['acc'][i] for i in range(len(data['acc']))])

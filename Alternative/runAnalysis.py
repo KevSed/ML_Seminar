@@ -67,13 +67,14 @@ This is the file where you should put everything what you want to run.
       Outputs are saved to out files.
 * A complete example of the analysis is given below. Note that it is necessary to download the Dataset first:
   https://www.kaggle.com/paultimothymooney/kermany2018. Example_plots shows images after resizing and input distributions for the DNN
+  The hdf5 file will be 3.3GB large, if you use the train dataset in the OCT2017 folder
 
 
 """
 
 example_plots()
 
-get_data('OCT2017/train/', 'train.hdf5')
+get_data('/home/bjoern/Studium/ML/OCT2017/test/', 'train.hdf5')
 
 prep_eval('train.hdf5', 'evaluate.hdf5')
 
@@ -82,6 +83,8 @@ dataset = h5py.File('evaluate.hdf5', mode='r')
 
 X = grid(dataset)
 
+X.Path_Base = '/home/bjoern/Studium/ML/ML_Seminar/Alternative/TestOutput/ModelBase/'
+X.Out_file = '/home/bjoern/Studium/ML/ML_Seminar/Alternative/TestOutput/Files/'
 # Tested models
 
 dense_layer =[[1024,512,128,64,32], [1024, 512,256,128,64,32,16], [512,256,128,64,32,16], [1024, 256, 64, 16], [512, 128, 32]]
@@ -98,27 +101,29 @@ for i in range(len(dense_layer)):
             X.make_model(dense_layer[i], acti, dropouts[i], out_acti, number)
             tested_models.append(number)
             number += 1
-batch_size = [50, 64, 128, 256, 512]
+batch_size = [50, 64,100, 128, 256, 512]
 
 for i in tested_models:
-    for batch in batch_size:
-        X.batch_size(batch)
-        X.fit_model(i, i*len(batch_size)+batch, '/home/bjoern/Studium/ML/GridSearch/Output/')
+    for b in range(len(batch_size)):
+        X.batch_size = batch_size[b]
+        X.fit_model(i, i*len(batch_size)+b, '/home/bjoern/Studium/ML/ML_Seminar/Alternative/TestOutput/Output/')
 
 
 
 
-models = model_selector('/home/bjoern/Studium/ML/GridSearch/Files/', [50,64,100,128,256,512], 5, 0.73, 0.95)
+models = model_selector('/home/bjoern/Studium/ML/ML_Seminar/Alternative/TestOutput/Files/', [50,64,100,128,256,512], 5, 0.20, 1, '/home/bjoern/Studium/ML/ML_Seminar/Alternative/TestOutput/AfterSel/')
 
-model_plotter('/home/bjoern/Studium/ML/GridSearch/Files/', 'GridSearch/ModelEval/',[50,64,100,128,256,512],5 )
+model_plotter('/home/bjoern/Studium/ML/ML_Seminar/Alternative/TestOutput/Files/', '/home/bjoern/Studium/ML/ML_Seminar/Alternative/TestOutput/ModelEval/',[50,64,100,128,256,512],5)
 print(models)
 accuracy = []
 for i in models:
-    accuracy.append(model_evaluator(i, '/home/bjoern/Studium/ML/GridSearch/Files/','GridSearch/Performance/',0, unblind=False ))
+    accuracy.append(model_evaluator(i, '/home/bjoern/Studium/ML/ML_Seminar/Alternative/TestOutput/Files/','/home/bjoern/Studium/ML/ML_Seminar/Alternative/TestOutput/Performance/',0, unblind=False ))
 #    accuracy.append(model_evaluator(i, '/home/bjoern/Studium/ML/GridSearch/Files/','GridSearch/Performance/',1, unblind=False ))
 #    accuracy.append(model_evaluator(i, '/home/bjoern/Studium/ML/GridSearch/Files/','GridSearch/Performance/',2, unblind=False ))
 #    accuracy.append(model_evaluator(i, '/home/bjoern/Studium/ML/GridSearch/Files/','GridSearch/Performance/',3, unblind=False ))
-# This is the model which wins the test
-model_evaluator(6, '/home/bjoern/Studium/ML/GridSearch/Files/','GridSearch/PerformanceTest/',0, unblind=False )
+# Spoiler ALERT: This is the model which wins the test !!!
+model_evaluator(6, '/home/bjoern/Studium/ML/ML_Seminar/Alternative/TestOutput/Files/','/home/bjoern/Studium/ML/ML_Seminar/Alternative/TestOutput/PerformanceTest/',0, unblind=True )
 
 print(accuracy)
+
+# Select the model with the highest accuracy
