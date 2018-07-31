@@ -61,10 +61,12 @@ def weights(X, Y):
 
 def scanning(X):
     means = []
+#    print(len(X))
+#    print(len(X[0]))
     for sy in range(0,len(X),2):
         for sx in range(0,len(X[0]),4):
             sum = 0
-            for dsy in range(4):
+            for dsy in range(2):
                 sum+=np.sum(X[(sy+dsy)][sx:sx+4])
             means.append(sum/8)
     means = means/np.amax(means)
@@ -74,7 +76,7 @@ def plot_image(X, label, suffix):
     plt.figure()
     plt.imshow(X)
     plt.title(label)
-    plt.savefig('GridSearch/Images/'+suffix+'.pdf')
+    plt.savefig('/home/bjoern/Studium/ML/ML_Seminar/Alternative/TestOutput/Images/'+suffix+'.pdf')
     plt.close()
 
 def plot_dist(X, label, suffix):
@@ -82,13 +84,13 @@ def plot_dist(X, label, suffix):
     plt.plot(X,  label='Means of (2,4) window')
     plt.title(label)
     plt.legend(loc='best')
-    plt.savefig('GridSearch/Distribution/'+suffix+'.pdf')
+    plt.savefig('/home/bjoern/Studium/ML/ML_Seminar/Alternative/TestOutput/Distribution/'+suffix+'.pdf')
     plt.close()
 
 
 
 def example_plots():
-    X,Y = get_data('OCT2017/val/')
+    X,Y = get_data('/home/bjoern/Studium/ML/OCT2017/val/', 'val.hdf5')
 
     name = ['NORMAL', 'CNV', 'DME', 'DRUSEN']
 
@@ -142,7 +144,6 @@ def prep_eval(file, outfile):
     data['X_Test'] = X_Test
     data['Y_Test'] = Y_Test
     data['weights_Test'] = weights_Test
-
 
     outputfile = h5py.File(outfile, mode='w')
     outputfile.create_dataset("X_Train", data=[data['X_Train'][i] for i in range(len(X_Train))])
