@@ -61,8 +61,7 @@ def weights(X, Y):
 
 def scanning(X):
     means = []
-#    print(len(X))
-#    print(len(X[0]))
+
     for sy in range(0,len(X),2):
         for sx in range(0,len(X[0]),4):
             sum = 0
@@ -124,7 +123,7 @@ def prep_eval(file, outfile):
 
     X_Train, X_Val, Y_Train, Y_Val = train_test_split(X_train, Y_train, test_size=0.25, random_state=43, stratify=Y_train, shuffle=True)
 
-    X_Train, X_Test, Y_Train, Y_Test = train_test_split(X_Train, Y_Train, test_size=0.1, random_state=43, stratify=Y_Train, shuffle=True)
+    X_Train, X_Test, Y_Train, Y_Test = train_test_split(X_Train, Y_Train, test_size=0.10, random_state=43, stratify=Y_Train, shuffle=True)
 
     weights_Train = weights(X_Train, Y_Train)
     weights_Val = weights(X_Val, Y_Val)*0.25/(0.75*0.9)

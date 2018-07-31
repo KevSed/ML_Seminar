@@ -131,30 +131,39 @@ def model_selector(infiles, batch_size, tested_models, acc_thr, loss_thr, outfil
     return surviving
 
 
-def model_evaluator(mod, infiles, outfiles, lab, unblind=False):
+def model_evaluator(mod, testfile,infiles, outfiles, lab, unblind=False):
 
     Path = infiles
-    dataset = h5py.File('evaluate.hdf5', mode='r')
-    X_Val = dataset['X_Val']
-    Y_Val = dataset['Y_Val']
-    weights_Val = dataset['weights_Val']
-    X_Test = dataset['X_Test']
-    Y_Test = dataset['Y_Test']
-    weights_Test = dataset['weights_Test']
-    print('Processing model '+str(mod))
-    json_file = open(Path+'model_'+str(mod)+'.json', 'r')
-    loaded_model_json = json_file.read()
-    model = model_from_json(loaded_model_json)
-    model.load_weights(Path+'model_'+str(mod)+'.hdf5')
-    model.compile(loss='categorical_crossentropy',optimizer=optimizers.Adam(lr=0.0001,beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False), metrics=['accuracy'])
-    loss, accuracy = model.evaluate(X_Val, Y_Val, sample_weight=weights_Val, verbose=0)
-    print('Val accuracy:', accuracy)
-    #for lab in [0,1,2,3]:
-    #    print('Corrected accuracy: '+str(evaluate(X_Val, Y_Val, weights_Val, model, mod,lab)))
-    if(unblind == False):
+    dataset = h5py.File(testfile, mode='r')
+    if(unblind==False):
+        X_Val = dataset['X_Val']
+        Y_Val = dataset['Y_Val']
+        weights_Val = dataset['weights_Val']
+        print('Processing model '+str(mod))
+        json_file = open(Path+'model_'+str(mod)+'.json', 'r')
+        loaded_model_json = json_file.read()
+        model = model_from_json(loaded_model_json)
+        model.load_weights(Path+'model_'+str(mod)+'.hdf5')
+        model.compile(loss='categorical_crossentropy',optimizer=optimizers.Adam(lr=0.0001,beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False), metrics=['accuracy'])
+        loss, accuracy = model.evaluate(X_Val, Y_Val, sample_weight=weights_Val, verbose=0)
+        print('Val accuracy:', accuracy)
         return evaluate(X_Val, Y_Val, weights_Val, model, mod,lab, outfiles)
-    elif(unblind == True):
+    if(unblind==True):
+        X_Test = dataset['X_Test']
+        Y_Test = dataset['Y_Test']
+        weights_Test = dataset['weights_Test']
+        print('Processing model '+str(mod))
+        json_file = open(Path+'model_'+str(mod)+'.json', 'r')
+        loaded_model_json = json_file.read()
+        model = model_from_json(loaded_model_json)
+        model.load_weights(Path+'model_'+str(mod)+'.hdf5')
+        model.compile(loss='categorical_crossentropy',optimizer=optimizers.Adam(lr=0.0001,beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False), metrics=['accuracy'])
+        loss, accuracy = model.evaluate(X_Test, Y_Test, sample_weight=weights_Test, verbose=0)
+        print('Val accuracy:', accuracy)
         return evaluate(X_Test, Y_Test, weights_Test, model, mod,lab, outfiles)
+
+
+
 
 
 def model_plotter(infiles,outfiles, batch_size, tested_models):
