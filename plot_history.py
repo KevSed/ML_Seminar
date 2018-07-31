@@ -3,7 +3,23 @@ import numpy as np
 
 
 def plot_history(loss, val_loss, acc, val_acc, name):
+    """
+    Plots the accuracy and loss history for the Training of a model.
 
+    Inputs:
+    -----------------------------------------------------------------
+    loss:       loss per epoch of training
+    val_loss:   loss per epoch of validation
+    acc:        accuracy per epoch of training
+    val_acc:    accuracy per epoch of validation
+    name:       string to determine model
+
+    Returns:
+    -----------------------------------------------------------------
+    None. Saves histories to files
+    """
+
+    # Weights for 70/30 splitting
     a = 0.7
     b = (1 - a)
     a *=  10**4

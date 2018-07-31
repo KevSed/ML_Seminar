@@ -13,6 +13,16 @@ def plot_confusion_matrix(cm, classes, what,
     """
     This function prints and plots the confusion matrix.
     Normalization can be applied by setting `normalize=True`.
+
+    Inputs:
+    ------------------------------------------------------
+    cm:  confusion matrix object as returned by sklearn.metrics.confusion_matrix
+    classes: array of classes to plot
+    what:  string containing the architecture distinction when testing different
+
+    Returns:
+    ------------------------------------------------------
+    No returns. Plots the confusion matrix in pdf/confusion_matrix_{what}.pdf
     """
     matplotlib.rcParams.update({'font.size': 18})
     plt.title(title + ' ' + what)
@@ -39,7 +49,25 @@ def plot_confusion_matrix(cm, classes, what,
 
 
 def evaluate(X_val, Y_val, model, weights, what):
+    """
+    This function evaluates a trained model. It applies the model to a given
+    Evaluation dataset and gives an calssification report, as well as a
+    confusion matrix and Output plots for the classification of each class.
 
+    Inputs:
+    ------------------------------------------------------
+    X_val:   Set of Input X data for the given model
+    Y_val:   Set of Input Y data for the given model
+    model:   A keras model to apply to the data
+    weights: Weights for the data set. 1 if the classses are equally distributed
+    what:  string containing the architecture distinction when testing different
+
+    Returns:
+    ------------------------------------------------------
+    No returns.
+    Plots the confusion matrix in pdf/confusion_matrix_{what}.pdf
+    Plots the output of the model in class_or_not_class pdfs
+    """
     klassen = ['NORMAL', 'CNV', 'DME', 'DRUSEN']
     ##Evaluate loss and metrics
     print('Evaluating model...')
