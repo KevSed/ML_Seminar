@@ -1,4 +1,4 @@
-# ML_Seminar
+# Seminar Maschinelles Lernen für Physikstudierende
 Machine learning seminar at TU Dortmund, summer term 2018.
 
 Das Repository enthält 6 verschiedene **network{}.py** files. Diese ausgeführt trainieren
